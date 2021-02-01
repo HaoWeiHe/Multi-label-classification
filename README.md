@@ -11,4 +11,6 @@ multi-lable-classificationis a project for toxic comment Classification.(Take ka
 
 ## Observation
 - Total comment counts for different labels.
-[!img] https://github.com/HaoWeiHe/multi-lable-classification/blob/main/Img/commentCounts.png
+<div align="center">
+	<img src="https://github.com/HaoWeiHe/multi-lable-classification/blob/main/Img/commentCounts.png" alt="Editor" width="500">
+</div>
