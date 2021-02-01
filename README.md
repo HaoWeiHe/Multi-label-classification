@@ -12,11 +12,11 @@ multi-lable-classificationis a project for toxic comment Classification.(Take ka
 ## Observation
 - What does the data look like?
 <div align="center">
-	<img src="https://github.com/HaoWeiHe/multi-lable-classification/blob/main/Img/data_sample.png" alt="Editor" width="500">
+	<img src="https://github.com/HaoWeiHe/multi-lable-classification/blob/main/Img/data_sample.png" alt="Editor" width="700">
 </div>
 
 
 - Total comment counts for different labels.
 <div align="center">
-	<img src="https://github.com/HaoWeiHe/multi-lable-classification/blob/main/Img/commentCounts.png" alt="Editor" width="500">
+	<img src="https://github.com/HaoWeiHe/multi-lable-classification/blob/main/Img/commentCounts.png" alt="Editor" width="700">
 </div>
