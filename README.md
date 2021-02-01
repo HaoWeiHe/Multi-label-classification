@@ -3,7 +3,7 @@ multi-lable-classificationis a project for toxic comment Classification.(Take ka
 
 
 ## Data Resource
-* [toxic comment](https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview)
+* [Toxic comment](https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview)
 
 
 ## What's New
@@ -11,4 +11,4 @@ multi-lable-classificationis a project for toxic comment Classification.(Take ka
 
 ## Observation
 - Total comment counts for different labels.
-
+[!img] https://github.com/HaoWeiHe/multi-lable-classification/blob/main/Img/commentCounts.png
