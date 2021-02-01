@@ -1,5 +1,5 @@
-# multi-lable-classification
-multi-lable-classificationis a project for toxic comment Classification.(Take kaggle toxic-comment-classification-challenge as our dataset)
+# Multi-lable-classification
+Multi-lable-classificationis a project for toxic comment Classification.(Take kaggle toxic-comment-classification-challenge as our dataset)
 
 
 ## Data Resource
