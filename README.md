@@ -25,7 +25,7 @@ Multi-lable-classificationis a project for toxic comment Classification.(Take ka
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/word_frequency_distribution.png" alt="Editor" width="700">
 </div>
-Base on the mean and standard diviation from this data observation, we can set our embedding length to 255, and it can contain around 95% words in a text
+As per the mean and standard diviation from this data observation, we can set our embedding length to 255 and it can contain around 95% words in a text
 
 - Word colud
 <div align="center">
