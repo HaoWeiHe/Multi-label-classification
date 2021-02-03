@@ -12,6 +12,7 @@ unzip glove.6B.zip
 
 ## What's New
 1.1 Observation/anlysis the dataset before diving in
+1.2  Establish & tuning `LSTM` model.
 
 ## Observation
 - Generate descriptive statistics
