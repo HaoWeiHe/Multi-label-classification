@@ -7,7 +7,7 @@ Multi-lable-classificationis a project for toxic comment Classification.(Take ka
 
 
 ## What's New
-1.1 Observation/anlysis the dataset before diving in. 
+1.1 Observation/anlysis the dataset before diving in
 
 ## Observation
 - Generate descriptive statistics
@@ -21,7 +21,7 @@ Multi-lable-classificationis a project for toxic comment Classification.(Take ka
 </div>
 
 
-- Total comment counts for different labels.
+- Total comment counts for different labels
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/multi-lable-classification/blob/main/Img/commentCounts.png" alt="Editor" width="700">
 </div>
