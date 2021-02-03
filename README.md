@@ -23,7 +23,7 @@ Multi-lable-classificationis a project for toxic comment Classification.(Take ka
 
 - Total comment counts for different labels
 <div align="center">
-	<img src="https://github.com/HaoWeiHe/multi-lable-classification/blob/main/Img/commentCounts.png" alt="Editor" width="700">
+	<img src="https://github.com/HaoWeiHe/multi-lable-classification/blob/main/Img/commentCounts.png" alt="Editor" width="500">
 </div>
 
 - Count numbers of different categories
