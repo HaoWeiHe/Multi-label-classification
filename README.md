@@ -4,7 +4,7 @@ Multi-lable-classificationis a project for toxic comment Classification.(Take ka
 
 ## Data Resource
 * [Toxic comment](https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview)
-* [GloVe word embedding] - represent text to numerical vectors
+* [GloVe word embedding](https://nlp.stanford.edu/projects/glove/) - represent text to numerical vectors
 ```
 wget http://nlp.stanford.edu/data/glove.6B.zip
 unzip glove.6B.zip
