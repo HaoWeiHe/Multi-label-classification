@@ -26,6 +26,11 @@ Multi-lable-classificationis a project for toxic comment Classification.(Take ka
 	<img src="https://github.com/HaoWeiHe/multi-lable-classification/blob/main/Img/commentCounts.png" alt="Editor" width="700">
 </div>
 
+- Count numbers of different categories
+<div align="center">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/mulit-label-count.png" alt="Editor" width="700">
+</div>
+
 - Word Length distribution
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/word_frequency_distribution.png" alt="Editor" width="700">
