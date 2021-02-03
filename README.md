@@ -10,6 +10,11 @@ Multi-lable-classificationis a project for toxic comment Classification.(Take ka
 1.1 Observation/anlysis the dataset before diving in. 
 
 ## Observation
+- Generate descriptive statistics
+<div align="center">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/categories.png" alt="Editor" width="700">
+</div>
+
 - What does the data look like?
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/multi-lable-classification/blob/main/Img/data_sample.png" alt="Editor" width="700">
