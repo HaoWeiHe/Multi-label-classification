@@ -1,5 +1,5 @@
 # Multi-lable-classification
-Multi-lable-classificationis a project for toxic comment Classification.(Take kaggle toxic-comment-classification-challenge as our dataset)
+Multi-lable-classificationis a project for toxic comment classification.(Take kaggle toxic-comment-classification-challenge as our dataset)
 
 
 ## Data Resource
@@ -62,7 +62,7 @@ A glimsp of our high frequency words
 
 ## Evaluation metrics
 
-### 2.1
+### 1.2
 Using LSTM with dropout. Accuarncy got 95.7%
 ```
 998/998 [==============================] - 8s 8ms/step - loss: 0.0951 - acc: 0.9571
