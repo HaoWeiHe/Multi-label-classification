@@ -33,6 +33,9 @@ plt.xlabel('Labels',size=20)
 
 plt.show()
 
+print(sum(label_counts))
+print(df.shape)
+1- 0.219
 
 import re
 def preprocess_text(sen):
@@ -42,11 +45,14 @@ def preprocess_text(sen):
     return sentence
 
 df['clean'] = df["comment_text"].apply(preprocess_text)
+# from gensim.utils import simple_preprocess 
+# df['tokens'] = df['clean'].apply(simple_preprocess)
 
 from sklearn.model_selection import train_test_split
 
 def split_train_test(X, Y, test_size = 0.2, shuffle_state = True ):
     FEATURES = ['clean']
+
     X_train, X_test, Y_train, Y_test = train_test_split(
                                                         X[FEATURES],
                                                         Y,
@@ -55,9 +61,11 @@ def split_train_test(X, Y, test_size = 0.2, shuffle_state = True ):
                                                         random_state = 32)
     X_train = X_train.reset_index()
     X_test = X_test.reset_index()
+#     Y_train = Y_train.to_frame()    
+#     Y_train = Y_train.reset_index()
+#     Y_test = Y_test.to_frame()
+#     Y_test = Y_test.reset_index()
     return X_train, X_test, Y_train, Y_test 
-
-
 X_train, X_test, Y_train, Y_test = split_train_test(df, labels.values )
 
 # Commented out IPython magic to ensure Python compatibility.
@@ -150,14 +158,16 @@ word2vec_output_file = 'glove.6B.300d.txt.w2v'
 glove2word2vec(glove_input_file, word2vec_output_file)
 
 from gensim.models import KeyedVectors
+# load the Stanford GloVe model 
 model = KeyedVectors.load_word2vec_format(word2vec_output_file, binary=False)
 # model.save("Glove_word2vec.model")
 
+# model['computer'] 
 words, vectors = [], []
 for k,v in model.vocab.items():
     words.append(k)
     vectors.append(model[k])
-
+# model.vocab.keys()
 
 import numpy
 vocab_size = len(tokenizer.word_index) + 1
@@ -167,13 +177,13 @@ for word, index in tokenizer.word_index.items():
         embedding_matrix[index] = model[word]
 
 batch_size = 128
-
+from  keras import Sequential
+from keras.layers import *
 lstm_model = Sequential()
-lstm_model.add(Embedding(vocab_size, 300,  weights = [embedding_matrix], trainable = False))
-lstm_model.add(SpatialDropout1D(0.2))
-lstm_model.add(LSTM(100, dropout=0.2, recurrent_dropout=0.2))
-lstm_model.add(Dense(6, activation='softmax'))
-lstm_model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+lstm_model.add(Embedding(vocab_size, 300, weights = [embedding_matrix], trainable = False))
+lstm_model.add(LSTM(128))
+lstm_model.add(Dense(6, activation='sigmoid'))
+lstm_model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
 
 print('Training...')
 history = lstm_model.fit(X_TRAIN, Y_TRAIN, batch_size=batch_size, epochs = 7, validation_split=0.2)
@@ -213,4 +223,22 @@ plt.xlabel('epoch')
 plt.legend(['train','test'], loc='upper left')
 plt.show()
 
+def predict_Class(df,threshode = 0.5, ):
+  df[df >= threshode] = 1
+  df[df < threshode] = 0
+
+from sklearn.metrics import classification_report
+train_predict = lstm_model.predict(X_TRAIN, verbose=0)
+test_predict = lstm_model.predict(X_TEST, verbose=0)
+predict_Class(train_predict)
+predict_Class(test_predict)
+
+print(">> training set \n")
+from sklearn.metrics import classification_report
+print(classification_report(Y_TRAIN, train_predict,target_names= ['toxic', 'severe_toxic', 'obscene', 'threat', 'insult',
+       'identity_hate']))
+
+print(">> testing set \n")
+print(classification_report(Y_TEST, test_predict,target_names= ['toxic', 'severe_toxic', 'obscene', 'threat', 'insult',
+       'identity_hate']))
 
