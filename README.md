@@ -69,7 +69,7 @@ Using LSTM with dropout. Accuarncy got 95.7%
 Loss: 0.09514936059713364
 Test Accuracy: 0.9571361541748047
 ```
-Confuse matrics
+Confusion matrix
 ```
 >> training set 
 
