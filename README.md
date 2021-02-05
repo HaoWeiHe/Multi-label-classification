@@ -11,8 +11,14 @@ unzip glove.6B.zip
 ```
 
 ## What's New
+
+1.0 Restruct training / testing data
 1.1 Observation/anlysis the dataset before diving in
 1.2  Establish & tuning `LSTM` model.
+
+## Data Restructure
+- Training set - all data from train.csv
+- Testing set - all data from test.csv except the data with value of -1, which which means it was not used for scoring
 
 ## Observation
 - Generate descriptive statistics
@@ -33,10 +39,22 @@ unzip glove.6B.zip
 A quick calculation : sum(label_counts)/num_of_sample = 35098/159571 = 0.219, which indicate that the lower bound(accurancy metric) is around 78.1%
 
 
-- Count numbers of different categories
+- Count numbers of different categories (Training set)
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/mulit-label-count.png" alt="Editor" width="700">
 </div>
+
+- Count numbers of different categories (Testing set before data constructure)
+<div align="center">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/test_ori.png" alt="Editor" width="700">
+</div>
+
+
+- Count numbers of different categories (Testing set after data constructure)
+<div align="center">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/test.png" alt="Editor" width="700">
+</div>
+
 
 - Word Length distribution
 <div align="center">
