@@ -12,13 +12,35 @@ unzip glove.6B.zip
 
 ## What's New
 
+4.0 Model with revised cost funcstion (in the process)
+
+3.0 Model with multiple output layers
+3.1 Establish & tuning `LSTM` model.
+
+2.0 Model with single output layer but have multiple neurons 
+2.1 Establish & tuning `LSTM` model.
+
 1.0 Restruct training / testing data
 1.1 Observation/anlysis the dataset before diving in
-1.2  Establish & tuning `LSTM` model.
+
+
 
 ## Data Restructure
 - Training set - all data from train.csv
 - Testing set - all data from test.csv except the data with value of -1, which which means it was not used for scoring
+
+## Model strucutre
+- Model 2.0
+<div align="center">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/structure1.png" alt="Editor" width="400">
+</div>
+
+- Model 3.0
+<div align="center">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/structure2.png" alt="Editor" width="900">
+</div>
+
+
 
 ## Observation
 - Generate descriptive statistics
@@ -44,7 +66,7 @@ A quick calculation : sum(label_counts)/num_of_sample = 35098/159571 = 0.219, wh
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/mulit-label-count.png" alt="Editor" width="700">
 </div>
 
-- Count numbers of different categories (Testing set before data constructure)
+- Count numbers of different categories (Testing set before data restructure)
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/test_ori.png" alt="Editor" width="700">
 </div>
@@ -68,57 +90,71 @@ As per the mean and standard diviation from this data observation, we can set ou
 </div>
 A glimsp of our high frequency words
 
-- Accurancy trend
+- Accurancy trend (Model 2.0)
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/acc.png" alt="Editor" width="700">
 </div>
 
-- Loss trend
+- Loss trend (Model 2.0)
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/trend.png" alt="Editor" width="700">
 </div>
 
+
+
+
 ## Evaluation metrics
 
-### 1.2
-Using LSTM with dropout. Accuarncy got 95.7%
+### Model 2.0
+
+Using LSTM with dropout. Accuarncy got 99.7% (The result is over optimism, for we use argmax to evaluate)
+
 ```
-998/998 [==============================] - 8s 8ms/step - loss: 0.0951 - acc: 0.9571
-Loss: 0.09514936059713364
-Test Accuracy: 0.9571361541748047
+2000/2000 [==============================] - 15s 8ms/step - loss: 0.0780 - acc: 0.9970
+Loss: 0.0780174732208252
+Test Accuracy: 0.997014582157135
 ```
-Confusion matrix
+Confusion matrix. (To look into each categories)
 ```
 >> training set 
 
                precision    recall  f1-score   support
 
-        toxic       0.87      0.73      0.80     12275
- severe_toxic       0.51      0.42      0.46      1294
-      obscene       0.87      0.74      0.80      6811
-       threat       0.50      0.00      0.01       375
-       insult       0.76      0.64      0.70      6346
-identity_hate       0.78      0.01      0.01      1136
+        toxic       0.88      0.78      0.82     15294
+ severe_toxic       0.58      0.37      0.45      1595
+      obscene       0.88      0.74      0.81      8449
+       threat       0.25      0.00      0.00       478
+       insult       0.77      0.64      0.70      7877
+identity_hate       0.67      0.00      0.01      1405
 
-    micro avg       0.83      0.66      0.74     28237
-    macro avg       0.71      0.42      0.46     28237
- weighted avg       0.82      0.66      0.72     28237
-  samples avg       0.06      0.06      0.06     28237
- 
- 
- >> testing set 
+    micro avg       0.84      0.68      0.75     35098
+    macro avg       0.67      0.42      0.47     35098
+ weighted avg       0.82      0.68      0.73     35098
+  samples avg       0.07      0.06      0.06     35098
+  >> testing set 
 
                precision    recall  f1-score   support
 
-        toxic       0.85      0.70      0.76      3019
- severe_toxic       0.48      0.42      0.44       301
-      obscene       0.82      0.71      0.76      1638
-       threat       0.00      0.00      0.00       103
-       insult       0.73      0.61      0.66      1531
-identity_hate       0.00      0.00      0.00       269
+        toxic       0.55      0.82      0.66      6090
+ severe_toxic       0.39      0.42      0.40       367
+      obscene       0.70      0.69      0.69      3691
+       threat       0.00      0.00      0.00       211
+       insult       0.62      0.58      0.60      3427
+identity_hate       0.40      0.00      0.01       712
 
-    micro avg       0.79      0.63      0.70      6861
-    macro avg       0.48      0.40      0.44      6861
- weighted avg       0.75      0.63      0.69      6861
-  samples avg       0.06      0.06      0.05      6861
+    micro avg       0.59      0.67      0.63     14498
+    macro avg       0.44      0.42      0.39     14498
+ weighted avg       0.58      0.67      0.60     14498
+  samples avg       0.07      0.06      0.06     14498
+  
+```
+
+### Model 3.0
+
+Using LSTM with dropout. Accuarncy got only 18.4% (Over fitting)
+
+```
+Test Score: 0.4628007411956787
+Test Accuracy: 0.1841709166765213
+
 ```
