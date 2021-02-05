@@ -12,16 +12,16 @@ unzip glove.6B.zip
 
 ## What's New
 
-4.0 Model with revised cost funcstion (in the process)
+* 4.0 Model with revised cost funcstion (in the process)
 
-3.0 Model with multiple output layers
-3.1 Establish & tuning `LSTM` model.
+* 3.0 Model with multiple output layers
+* 3.1 Establish & tuning `LSTM` model.
 
-2.0 Model with single output layer but have multiple neurons 
-2.1 Establish & tuning `LSTM` model.
+* 2.0 Model with single output layer but have multiple neurons 
+* 2.1 Establish & tuning `LSTM` model.
 
-1.0 Restruct training / testing data
-1.1 Observation/anlysis the dataset before diving in
+* 1.0 Restruct training / testing data
+* 1.1 Observation/anlysis the dataset before diving in
 
 
 
