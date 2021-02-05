@@ -155,7 +155,7 @@ identity_hate       0.40      0.00      0.01       712
 
 ### Model 3.0
 
-Using LSTM with dropout. Accuarncy got only 18.4% (Over fitting)
+Using LSTM with dropout. Accuarncy got only 18.4% (Overfitting)
 
 ```
 2000/2000 [==============================] - 23s 11ms/step - loss: 0.5070 - dense_8_loss: 0.2167 - dense_9_loss: 0.0189 - dense_10_loss: 0.1153 - dense_11_loss: 0.0150 - dense_12_loss: 0.1050 - dense_13_loss: 0.0361 - dense_8_acc: 0.9138 - dense_9_acc: 0.9932 - dense_10_acc: 0.9561 - dense_11_acc: 0.9966 - dense_12_acc: 0.9598 - dense_13_acc: 0.9893
