@@ -101,7 +101,10 @@ A glimsp of our high frequency words
 </div>
 
 
-
+- Loss trend (Model 3.0)
+<div align="center">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/sc2_loss.png" alt="Editor" width="700">
+</div>
 
 ## Evaluation metrics
 
