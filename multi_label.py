@@ -7,13 +7,20 @@ Original file is located at
     https://colab.research.google.com/drive/1G6KD8jOfcnSS2S_Cktau2W1GexzUIMho
 """
 
-!wget http://nlp.stanford.edu/data/glove.6B.zip
-!unzip glove.6B.zip
+# !wget http://nlp.stanford.edu/data/glove.6B.zip
+# !unzip glove.6B.zip
 
 # #The dataset we use can be downloaded from Kaggle(https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview)
-!unzip train.csv.zip
+# !unzip train.csv.zip
 import pandas as pd
 df = pd.read_csv("train.csv")
+
+import pandas as pd
+# !unzip test.csv.zip
+df_test = pd.read_csv("test.csv")
+
+# !unzip test.csv.zip
+# !unzip test_labels.csv.zip
 
 labels = df[["toxic", "severe_toxic", "obscene", "threat", "insult", "identity_hate"]]
 label_counts = labels.sum(axis=0)
@@ -33,9 +40,7 @@ plt.xlabel('Labels',size=20)
 
 plt.show()
 
-print(sum(label_counts))
-print(df.shape)
-1- 0.219
+df_test_label = pd.read_csv("test_labels.csv")
 
 import re
 def preprocess_text(sen):
@@ -44,29 +49,58 @@ def preprocess_text(sen):
     sentence = re.sub(r'\s+', ' ', sentence)
     return sentence
 
+fig , axes = plt.subplots(2,3,figsize = (10,10), constrained_layout = True)
+sns.countplot(ax=axes[0,0],x='toxic',data = df_test_label )
+sns.countplot(ax=axes[0,1],x='severe_toxic',data = df_test_label)
+sns.countplot(ax=axes[0,2],x='obscene',data = df_test_label)
+sns.countplot(ax = axes[1,0],x='threat',data = df_test_label)
+sns.countplot(ax=axes[1,1],x='insult',data = df_test_label)
+sns.countplot(ax=axes[1,2],x='identity_hate',data = df_test_label)
+plt.suptitle('No Of Classes Of Each Category')
+plt.show()
+
+df_test = df_test[(df_test_label.severe_toxic > -1) & 
+              (df_test_label.toxic > -1) & 
+              (df_test_label.obscene > -1) & 
+              (df_test_label.threat > -1) & 
+              (df_test_label.insult > -1) & 
+              (df_test_label.identity_hate > -1) ]
+
+df_test_label = df_test_label[(df_test_label.severe_toxic > -1) & 
+              (df_test_label.toxic > -1) & 
+              (df_test_label.obscene > -1) & 
+              (df_test_label.threat > -1) & 
+              (df_test_label.insult > -1) & 
+              (df_test_label.identity_hate > -1) ]
+
+df_test_label = df_test_label.drop(['id'], axis=1)
+df_test_label = df_test_label.reset_index()
+df_test = df_test.reset_index()
+
+df_test_label = df_test_label.drop(['index'], axis=1)
+
 df['clean'] = df["comment_text"].apply(preprocess_text)
-# from gensim.utils import simple_preprocess 
-# df['tokens'] = df['clean'].apply(simple_preprocess)
+df_test['clean'] = df_test["comment_text"].apply(preprocess_text)
 
 from sklearn.model_selection import train_test_split
 
-def split_train_test(X, Y, test_size = 0.2, shuffle_state = True ):
+def split_train_test(X_train, Y_train, X_test, Y_test, test_size = 0.2, shuffle_state = True ):
     FEATURES = ['clean']
+    X_train, X_test, Y_train, Y_test = [X_train[FEATURES],
+                                       X_test[FEATURES],
+                                       Y_train,
+                                       Y_test]
+    # X_train, X_test, Y_train, Y_test = train_test_split(
+    #                                                     X[FEATURES],
+    #                                                     Y,
+    #                                                     shuffle = shuffle_state,
+    #                                                     test_size = test_size, 
+    #                                                     random_state = 32)
+    # X_train = X_train.reset_index()
+    # X_test = X_test.reset_index()
 
-    X_train, X_test, Y_train, Y_test = train_test_split(
-                                                        X[FEATURES],
-                                                        Y,
-                                                        shuffle = shuffle_state,
-                                                        test_size = test_size, 
-                                                        random_state = 32)
-    X_train = X_train.reset_index()
-    X_test = X_test.reset_index()
-#     Y_train = Y_train.to_frame()    
-#     Y_train = Y_train.reset_index()
-#     Y_test = Y_test.to_frame()
-#     Y_test = Y_test.reset_index()
     return X_train, X_test, Y_train, Y_test 
-X_train, X_test, Y_train, Y_test = split_train_test(df, labels.values )
+X_train, X_test, Y_train, Y_test = split_train_test(df, labels.values, df_test, df_test_label.values )
 
 # Commented out IPython magic to ensure Python compatibility.
 import matplotlib.pyplot as plt
@@ -152,6 +186,16 @@ sns.countplot(ax=axes[1,2],x='identity_hate',data=df)
 plt.suptitle('No Of Classes Of Each Category')
 plt.show()
 
+fig , axes = plt.subplots(2,3,figsize = (10,10), constrained_layout = True)
+sns.countplot(ax=axes[0,0],x='toxic',data = df_test_label )
+sns.countplot(ax=axes[0,1],x='severe_toxic',data = df_test_label)
+sns.countplot(ax=axes[0,2],x='obscene',data = df_test_label)
+sns.countplot(ax = axes[1,0],x='threat',data = df_test_label)
+sns.countplot(ax=axes[1,1],x='insult',data = df_test_label)
+sns.countplot(ax=axes[1,2],x='identity_hate',data = df_test_label)
+plt.suptitle('No Of Classes Of Each Category')
+plt.show()
+
 from gensim.scripts.glove2word2vec import glove2word2vec
 glove_input_file = 'glove.6B.300d.txt'
 word2vec_output_file = 'glove.6B.300d.txt.w2v'
@@ -187,6 +231,7 @@ lstm_model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc']
 
 print('Training...')
 history = lstm_model.fit(X_TRAIN, Y_TRAIN, batch_size=batch_size, epochs = 7, validation_split=0.2)
+
 score, acc = lstm_model.evaluate(X_TEST, Y_TEST,
                             batch_size=batch_size)
 
@@ -242,3 +287,54 @@ print(">> testing set \n")
 print(classification_report(Y_TEST, test_predict,target_names= ['toxic', 'severe_toxic', 'obscene', 'threat', 'insult',
        'identity_hate']))
 
+input_1 = Input(shape=(MAXLEN,))
+embedding_layer = Embedding(vocab_size, 300, weights=[embedding_matrix], trainable=False)(input_1)
+LSTM_Layer1 = LSTM(128)(embedding_layer)
+
+output1 = Dense(1, activation='sigmoid')(LSTM_Layer1)
+output2 = Dense(1, activation='sigmoid')(LSTM_Layer1)
+output3 = Dense(1, activation='sigmoid')(LSTM_Layer1)
+output4 = Dense(1, activation='sigmoid')(LSTM_Layer1)
+output5 = Dense(1, activation='sigmoid')(LSTM_Layer1)
+output6 = Dense(1, activation='sigmoid')(LSTM_Layer1)
+from keras.models import Model
+model = Model(inputs=input_1, outputs=[output1, output2, output3, output4, output5, output6])
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
+
+print(model.summary())
+
+from keras.utils import plot_model
+plot_model(model, to_file='model_plot_2.png', show_shapes = True, show_layer_names = True)
+
+y1_train = Y_TRAIN[:,0]
+y1_test =  Y_TEST[:,0]
+
+y2_train = Y_TRAIN[:,1]
+y2_test =  Y_TEST[:,1]
+
+y3_train = Y_TRAIN[:,2]
+y3_test =  Y_TEST[:,2]
+
+y4_train = Y_TRAIN[:,3]
+y4_test =  Y_TEST[:,3]
+
+y5_train = Y_TRAIN[:,4]
+y5_test =  Y_TEST[:,4]
+
+y6_train = Y_TRAIN[:,5]
+y6_test =  Y_TEST[:,5]
+history1 = model.fit(x= X_TRAIN, y=[y1_train, y2_train, y3_train, y4_train, y5_train, y6_train], batch_size= batch_size , epochs=5, verbose=1, validation_split=0.2)
+
+score = model.evaluate(x=X_TEST, y=[y1_test, y2_test, y3_test, y4_test, y5_test, y6_test], verbose=1)
+
+print("Test Score:", score[0])
+print("Test Accuracy:", score[1])
+
+import matplotlib.pyplot as plt
+plt.plot(history1.history['dense_12_acc'])
+plt.plot(history1.history['val_dense_12_acc'])
+plt.title('model accuracy')
+plt.ylabel('accuracy')
+plt.xlabel('epoch')
+plt.legend(['train','test'], loc='upper left')
+plt.show()
