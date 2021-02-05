@@ -75,7 +75,7 @@ A quick calculation : sum(label_counts)/num_of_sample = 35098/159571 = 0.219, wh
 - Count numbers of different categories (Testing set after data constructure)
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/test.png" alt="Editor" width="700">
-</div>
+</div> 
 
 
 - Word Length distribution
