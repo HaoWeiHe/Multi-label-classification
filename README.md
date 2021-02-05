@@ -32,12 +32,12 @@ unzip glove.6B.zip
 ## Model strucutre
 - Model 2.0
 <div align="center">
-	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/structure1.png" alt="Editor" width="700">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/structure1.png" alt="Editor" width="400">
 </div>
 
 - Model 3.0
 <div align="center">
-	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/structure2.png" alt="Editor" width="700">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/structure2.png" alt="Editor" width="900">
 </div>
 
 
