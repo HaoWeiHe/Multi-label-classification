@@ -92,19 +92,20 @@ A glimsp of our high frequency words
 
 - Accurancy trend (Model 2.0)
 <div align="center">
-	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/acc.png" alt="Editor" width="700">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/acc.png" alt="Editor" width="500">
 </div>
 
 - Loss trend (Model 2.0)
 <div align="center">
-	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/trend.png" alt="Editor" width="700">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/trend.png" alt="Editor" width="500">
 </div>
 
 
 - Loss trend (Model 3.0)
 <div align="center">
-	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/sc2_loss.png" alt="Editor" width="700">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/sc2_loss.png" alt="Editor" width="500">
 </div>
+It's overfitting when we change the last layer to mutiple-output, but keep others the same
 
 ## Evaluation metrics
 
