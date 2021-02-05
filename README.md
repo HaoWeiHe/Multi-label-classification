@@ -30,12 +30,12 @@ unzip glove.6B.zip
 - Testing set - all data from test.csv except the data with value of -1, which which means it was not used for scoring
 
 ## Model strucutre
-- Model with single output layer but have multiple neurons 
+- Model 2.0
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/structure1.png" alt="Editor" width="700">
 </div>
 
-- Model with multiple output layers
+- Model 3.0
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/structure2.png" alt="Editor" width="700">
 </div>
@@ -151,44 +151,10 @@ identity_hate       0.40      0.00      0.01       712
 
 ### Model 3.0
 
-Using LSTM with dropout. Accuarncy got 99.7% (The result is over optimism, for we use argmax to evaluate)
+Using LSTM with dropout. Accuarncy got only 18.4% (Over fitting)
 
 ```
 Test Score: 0.4628007411956787
 Test Accuracy: 0.1841709166765213
 
-```
-Confusion matrix. (To look into each categories)
-```
->> training set 
-
-               precision    recall  f1-score   support
-
-        toxic       0.88      0.78      0.82     15294
- severe_toxic       0.58      0.37      0.45      1595
-      obscene       0.88      0.74      0.81      8449
-       threat       0.25      0.00      0.00       478
-       insult       0.77      0.64      0.70      7877
-identity_hate       0.67      0.00      0.01      1405
-
-    micro avg       0.84      0.68      0.75     35098
-    macro avg       0.67      0.42      0.47     35098
- weighted avg       0.82      0.68      0.73     35098
-  samples avg       0.07      0.06      0.06     35098
-  >> testing set 
-
-               precision    recall  f1-score   support
-
-        toxic       0.55      0.82      0.66      6090
- severe_toxic       0.39      0.42      0.40       367
-      obscene       0.70      0.69      0.69      3691
-       threat       0.00      0.00      0.00       211
-       insult       0.62      0.58      0.60      3427
-identity_hate       0.40      0.00      0.01       712
-
-    micro avg       0.59      0.67      0.63     14498
-    macro avg       0.44      0.42      0.39     14498
- weighted avg       0.58      0.67      0.60     14498
-  samples avg       0.07      0.06      0.06     14498
-  
 ```
