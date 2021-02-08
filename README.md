@@ -12,8 +12,8 @@ unzip glove.6B.zip
 
 ## What's New
 
-* 4.0 Model with revised cost funcstion (in the process)
-
+* 4.0 Model with Focal Loss
+(This loss function aim to improve data imbalance situation)
 * 3.0 Transfer-learning - Model with `multiple output layers`
 * 3.1 Establish & tuning `LSTM` model.
 
@@ -113,7 +113,9 @@ It's overfitting when we change the last layer to mutiple-output, but keep other
 
 ### Model 4.0
 
-Use the Focal Loss. Accuarncy got 0.9934, AUC got 0.97
+Use the Focal Loss. Accuarncy got 0.9934 and AUC got 0.97. (Auc of Model 2.0 got 0.955)
+(This loss function aim to improve data imbalance situation. But this model looks like overfitting. Need to reviese.)
+
 
 ```
 2000/2000 [==============================] - 18s 9ms/step - loss: 0.0493 - acc: 0.9934 - auc: 0.9700
@@ -170,12 +172,12 @@ Test Accuracy: 0.21666644513607025
 
 ### Model 2.0
 
-Using LSTM with dropout. Accuarncy got 99.7% (The result is over optimism, for we use argmax to evaluate)
+Using LSTM with dropout. Accuarncy got 99.7% (The result is over optimism, for we use argmax to evaluate). AUC got 0.9559.
 
 ```
-2000/2000 [==============================] - 15s 8ms/step - loss: 0.0780 - acc: 0.9970
-Loss: 0.0780174732208252
-Test Accuracy: 0.997014582157135
+2000/2000 [==============================] - 18s 9ms/step - loss: 0.0872 - acc: 0.9965 - auc: 0.9559
+Loss: 0.0871838703751564
+Test Accuracy: 0.9964519143104553
 ```
 Confusion matrix. (To look into each categories)
 ```
