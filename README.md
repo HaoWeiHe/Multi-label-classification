@@ -4,7 +4,7 @@ Multi-lable-classificationis a project for toxic comment classification.(Take ka
 
 ## Data Resource
 * [Toxic comment](https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview)
-* [GloVe word embedding](https://nlp.stanford.edu/projects/glove/)
+* [GloVe word embedding](https://nlp.stanford.edu/projects/glove/) (use for transfer learning)
 ```
 wget http://nlp.stanford.edu/data/glove.6B.zip
 unzip glove.6B.zip
@@ -14,10 +14,10 @@ unzip glove.6B.zip
 
 * 4.0 Model with revised cost funcstion (in the process)
 
-* 3.0 Model with `multiple output layers`
+* 3.0 Transfer-learning - Model with `multiple output layers`
 * 3.1 Establish & tuning `LSTM` model.
 
-* 2.0 Model with `single output layer but have multiple neurons` 
+* 2.0 Transfer-learning - Model with `single output layer but have multiple neurons` 
 * 2.1 Establish & tuning `LSTM` model.
 
 * 1.0 Restruct training / testing data
