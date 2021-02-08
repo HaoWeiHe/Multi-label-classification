@@ -7,16 +7,16 @@ Original file is located at
     https://colab.research.google.com/drive/1G6KD8jOfcnSS2S_Cktau2W1GexzUIMho
 """
 
-# !wget http://nlp.stanford.edu/data/glove.6B.zip
-# !unzip glove.6B.zip
+!wget http://nlp.stanford.edu/data/glove.6B.zip
+!unzip glove.6B.zip
 
 # #The dataset we use can be downloaded from Kaggle(https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview)
-# !unzip train.csv.zip
+!unzip train.csv.zip
 import pandas as pd
 df = pd.read_csv("train.csv")
 
 import pandas as pd
-# !unzip test.csv.zip
+!unzip test.csv.zip
 df_test = pd.read_csv("test.csv")
 
 # !unzip test.csv.zip
@@ -40,6 +40,7 @@ plt.xlabel('Labels',size=20)
 
 plt.show()
 
+!unzip test_labels.csv.zip
 df_test_label = pd.read_csv("test_labels.csv")
 
 import re
@@ -49,6 +50,7 @@ def preprocess_text(sen):
     sentence = re.sub(r'\s+', ' ', sentence)
     return sentence
 
+import seaborn as sns
 fig , axes = plt.subplots(2,3,figsize = (10,10), constrained_layout = True)
 sns.countplot(ax=axes[0,0],x='toxic',data = df_test_label )
 sns.countplot(ax=axes[0,1],x='severe_toxic',data = df_test_label)
@@ -220,6 +222,66 @@ for word, index in tokenizer.word_index.items():
     if word in model:
         embedding_matrix[index] = model[word]
 
+import numpy as np
+positive_weights = {}
+negative_weights = {}
+class_weights = {}
+clas_names = df.columns.to_list()
+clas_names = clas_names[2:-1]
+sampe_weights = []
+for idx,c in enumerate(clas_names):
+  values = df[c].value_counts().tolist() #[pos_num, neg_num]
+  positive_weights[c] = np.divide(df.shape[0], values[0] )
+  negative_weights[c] = np.divide(df.shape[0],values[1])
+  class_weights[c] = negative_weights[c]/positive_weights[c]
+  sampe_weights.append(int(negative_weights[c]/positive_weights[c]))
+print(positive_weights)
+print(negative_weights)
+# print(sampe_weights)
+# class_weights = numpy.array(sampe_weights)
+
+positive_weights = {}
+negative_weights = {}
+for c in clas_names:
+    positive_weights[c] = df.shape[0]/(2*np.count_nonzero(df[c]==1))
+    negative_weights[c] = df.shape[0]/(2*np.count_nonzero(df[c]==0))
+print(positive_weights)
+print(negative_weights)
+
+y_true = [[0., 1.], [0.2, 0.8],[0.3, 0.7],[0.4, 0.6]]
+y_pred = [[0.6, 0.4], [0.4, 0.6],[0.6, 0.4],[0.8, 0.2]]
+bce = tf.keras.losses.BinaryCrossentropy(reduction='sum_over_batch_size')
+bce(y_true, y_pred).numpy()
+
+bce = tf.keras.losses.BinaryCrossentropy(reduction='none')
+print(bce(y_true, y_pred).numpy())
+bce = tf.keras.losses.BinaryCrossentropy(reduction='sum_over_batch_size')
+bce(y_true, y_pred).numpy()
+
+#it works
+from keras import backend as K 
+def calculating_class_weights(y_true):
+    from sklearn.utils.class_weight import compute_class_weight
+    number_dim = np.shape(y_true)[1]
+    weights = np.empty([number_dim, 2])
+    for i in range(number_dim):
+        weights[i] = compute_class_weight('balanced', [0.,1.], y_true[:, i])
+    return weights
+
+def get_weighted_loss(weights):
+    def weighted_loss(y_true, y_pred):
+      y_true = np.float32(y_true)
+      # return K.mean((weights[:,0]**(1-y_true))*(weights[:,1]**(y_true)), axis=-1)
+      a = K.pow(weights[:,0],(1-y_true))
+      b = np.float32(weights[:,1]**(y_true))
+      bce = tf.keras.losses.BinaryCrossentropy()
+      c = bce(y_true, y_pred).numpy() 
+      return K.mean(a*b*c, axis=-1)
+    return weighted_loss
+weights = calculating_class_weights(Y_TRAIN)
+
+from keras.losses import binary_crossentropy
+import tensorflow_addons as tfa
 batch_size = 128
 from  keras import Sequential
 from keras.layers import *
@@ -227,12 +289,16 @@ lstm_model = Sequential()
 lstm_model.add(Embedding(vocab_size, 300, weights = [embedding_matrix], trainable = False))
 lstm_model.add(LSTM(128))
 lstm_model.add(Dense(6, activation='sigmoid'))
-lstm_model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
+# lstm_model.compile(optimizer='adam', loss = get_weighted_loss(weights))
+lstm_model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc','AUC'])
+# lstm_model.compile(loss= tfa.losses.SigmoidFocalCrossEntropy(), optimizer='adam', metrics=['acc','AUC'])
 
+# lstm_model.compile(loss = get_weighted_loss(weights), optimizer='adam', metrics=['acc'])
 print('Training...')
-history = lstm_model.fit(X_TRAIN, Y_TRAIN, batch_size=batch_size, epochs = 7, validation_split=0.2)
 
-score, acc = lstm_model.evaluate(X_TEST, Y_TEST,
+history = lstm_model.fit(X_TRAIN, np.float32(Y_TRAIN), batch_size=batch_size, epochs = 7, validation_split=0.2)
+
+score, acc, auc = lstm_model.evaluate(X_TEST, np.float32(Y_TEST),
                             batch_size=batch_size)
 
 print('Test accuracy:', acc)
@@ -243,7 +309,7 @@ print(lstm_model.summary())
 from keras.utils import plot_model
 plot_model(lstm_model, to_file='model_plot.png', show_shapes=True, show_layer_names=True)
 
-score = lstm_model.evaluate(X_TEST, Y_TEST, verbose=1)
+score = lstm_model.evaluate(X_TEST, np.float32(Y_TEST), verbose=1)
 
 print("Loss:", score[0])
 print("Test Accuracy:", score[1])
@@ -268,6 +334,16 @@ plt.xlabel('epoch')
 plt.legend(['train','test'], loc='upper left')
 plt.show()
 
+
+plt.plot(history.history['auc'])
+plt.plot(history.history['val_auc'])
+
+plt.title('AUC-ROC')
+plt.ylabel('AUC')
+plt.xlabel('epoch')
+plt.legend(['train','test'], loc='upper left')
+plt.show()
+
 def predict_Class(df,threshode = 0.5, ):
   df[df >= threshode] = 1
   df[df < threshode] = 0
@@ -286,6 +362,8 @@ print(classification_report(Y_TRAIN, train_predict,target_names= ['toxic', 'seve
 print(">> testing set \n")
 print(classification_report(Y_TEST, test_predict,target_names= ['toxic', 'severe_toxic', 'obscene', 'threat', 'insult',
        'identity_hate']))
+
+history.history
 
 input_1 = Input(shape=(MAXLEN,))
 embedding_layer = Embedding(vocab_size, 300, weights=[embedding_matrix], trainable=False)(input_1)
@@ -329,6 +407,17 @@ score = model.evaluate(x=X_TEST, y=[y1_test, y2_test, y3_test, y4_test, y5_test,
 
 print("Test Score:", score[0])
 print("Test Accuracy:", score[1])
+
+# import matplotlib.pyplot as plt
+# plt.plot(history1.history['loss'])
+# plt.plot(history1.history['val_loss'])
+# plt.title('model loss')
+# plt.ylabel('loss')
+# plt.xlabel('epoch')
+# plt.legend(['train','test'], loc='upper left')
+# plt.show()
+
+
 
 import matplotlib.pyplot as plt
 plt.plot(history1.history['dense_12_acc'])
