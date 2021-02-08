@@ -12,15 +12,20 @@ unzip glove.6B.zip
 
 ## What's New
 
-* 4.0Transfer-learning - with `Focal Loss` (Aim to improve data imbalance situation)
-* 3.0 Transfer-learning - Model with `multiple output layers`
-* 3.1 Establish & tuning `LSTM` model.
+### Model 4.0 
+* Transfer-learning - with `Focal Loss` (Aim to improve data imbalance situation)
 
-* 2.0 Transfer-learning - Model with `single output layer but have multiple neurons` 
-* 2.1 Establish & tuning `LSTM` model.
+### Model 3.0
+* Transfer-learning - Model with `multiple output layers`
+* Establish & tuning `LSTM` model.
 
-* 1.0 Restruct training / testing data
-* 1.1 Observation/anlysis the dataset before diving in
+### Model 2.0
+* Transfer-learning - Model with `single output layer but have multiple neurons` 
+* Establish & tuning `LSTM` model.
+
+### Data Observation
+* Restruct training / testing data
+* Observation/anlysis the dataset before diving in
 
 
 
