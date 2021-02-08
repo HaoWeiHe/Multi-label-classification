@@ -12,8 +12,7 @@ unzip glove.6B.zip
 
 ## What's New
 
-* 4.0 Model with Focal Loss
-(This loss function aim to improve data imbalance situation)
+* 4.0Transfer-learning - with `Focal Loss` (Aim to improve data imbalance situation)
 * 3.0 Transfer-learning - Model with `multiple output layers`
 * 3.1 Establish & tuning `LSTM` model.
 
