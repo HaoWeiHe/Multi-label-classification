@@ -35,6 +35,7 @@ unzip glove.6B.zip
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/structure2.png" alt="Editor" width="900">
 </div>
 
+
 - Model 2.0
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/structure1.png" alt="Editor" width="400">
@@ -167,4 +168,4 @@ Test Accuracy: 0.21666644513607025
 
 ## Some resource
 About loss function - (It's fruitful!!)
-[loss function](!https://neptune.ai/blog/keras-loss-functions)
+[loss function](https://neptune.ai/blog/keras-loss-functions)
