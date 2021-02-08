@@ -167,5 +167,4 @@ Test Accuracy: 0.21666644513607025
 ```
 
 ## Some resource
-About loss function - (It's fruitful!!)
-[loss function](https://neptune.ai/blog/keras-loss-functions)
+* [loss function](https://neptune.ai/blog/keras-loss-functions) - (It's fruitful!!)
