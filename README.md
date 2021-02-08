@@ -164,3 +164,7 @@ Test Score: 0.5070158839225769
 Test Accuracy: 0.21666644513607025
 
 ```
+
+## Some resource
+About loss function - (It's fruitful!!)
+[loss function](!https://neptune.ai/blog/keras-loss-functions)
