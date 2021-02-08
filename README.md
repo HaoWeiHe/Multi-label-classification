@@ -130,7 +130,7 @@ It's overfitting when we change the last layer to mutiple-output, but keep other
 ### Model 4.0
 
 Use the Focal Loss. Accuarncy got 0.9934 and AUC got 0.97. (Auc of Model 2.0 got 0.955)
-(This loss function aim to improve data imbalance situation. But this model looks like overfitting. Need to reviese.)
+(This loss function aim to improve data imbalance situation)
 
 
 ```
