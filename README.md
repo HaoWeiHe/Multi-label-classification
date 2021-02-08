@@ -108,6 +108,23 @@ A glimsp of our high frequency words
 </div>
 It's overfitting when we change the last layer to mutiple-output, but keep others the same
 
+
+- Acc trend (Model 4.0)
+<div align="center">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/acc_foss.png" alt="Editor" width="500">
+</div>
+
+- Loss trend (Model 4.0)
+<div align="center">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/loss%20foss.png" alt="Editor" width="500">
+</div>
+
+- AUC-ROC trend (Model 4.0)
+<div align="center">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/auc_foss.png" alt="Editor" width="500">
+</div>
+
+
 ## Evaluation Metrics
 
 ### Model 4.0
