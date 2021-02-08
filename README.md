@@ -13,7 +13,8 @@ unzip glove.6B.zip
 ## What's New
 
 ### Model 4.0 
-* Transfer-learning - with `Focal Loss` (Aim to improve data imbalance situation)
+* Aim to improve data imbalance situation (use tech of loss function revised)
+* Transfer-learning - with `Focal Loss` 
 
 ### Model 3.0
 * Transfer-learning - Model with `multiple output layers`
