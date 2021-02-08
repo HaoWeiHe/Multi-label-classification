@@ -29,7 +29,7 @@ unzip glove.6B.zip
 - Training set - all data from train.csv
 - Testing set - all data from test.csv except the data with value of -1, which which means it was not used for scoring
 
-## Model strucutre
+## Model Strucutre
 - Model 3.0
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/structure2.png" alt="Editor" width="900">
@@ -109,7 +109,64 @@ A glimsp of our high frequency words
 </div>
 It's overfitting when we change the last layer to mutiple-output, but keep others the same
 
-## Evaluation metrics
+## Evaluation Metrics
+
+### Model 4.0
+
+Use the Focal Loss. Accuarncy got 0.9934, AUC got 0.97
+
+```
+2000/2000 [==============================] - 18s 9ms/step - loss: 0.0493 - acc: 0.9934 - auc: 0.9700
+Loss: 0.04926449805498123
+Test Accuracy: 0.9933727383613586
+
+```
+Confuse Matric
+```
+>> training set 
+
+               precision    recall  f1-score   support
+
+        toxic       0.94      0.65      0.76     15294
+ severe_toxic       0.96      0.05      0.10      1595
+      obscene       0.94      0.60      0.73      8449
+       threat       1.00      0.01      0.03       478
+       insult       0.89      0.37      0.52      7877
+identity_hate       0.92      0.01      0.02      1405
+
+    micro avg       0.93      0.51      0.66     35098
+    macro avg       0.94      0.28      0.36     35098
+ weighted avg       0.93      0.51      0.63     35098
+  samples avg       0.06      0.04      0.05     35098
+
+
+>> testing set 
+
+               precision    recall  f1-score   support
+
+        toxic       0.65      0.72      0.68      6090
+ severe_toxic       0.44      0.06      0.10       367
+      obscene       0.83      0.53      0.65      3691
+       threat       0.33      0.00      0.01       211
+       insult       0.81      0.30      0.44      3427
+identity_hate       0.40      0.00      0.01       712
+
+    micro avg       0.71      0.51      0.59     14498
+    macro avg       0.58      0.27      0.31     14498
+ weighted avg       0.71      0.51      0.56     14498
+  samples avg       0.07      0.05      0.05     14498
+
+```
+### Model 3.0
+
+Using LSTM with dropout. Accuarncy got only 18.4% (Overfitting)
+
+```
+2000/2000 [==============================] - 23s 11ms/step - loss: 0.5070 - dense_8_loss: 0.2167 - dense_9_loss: 0.0189 - dense_10_loss: 0.1153 - dense_11_loss: 0.0150 - dense_12_loss: 0.1050 - dense_13_loss: 0.0361 - dense_8_acc: 0.9138 - dense_9_acc: 0.9932 - dense_10_acc: 0.9561 - dense_11_acc: 0.9966 - dense_12_acc: 0.9598 - dense_13_acc: 0.9893
+Test Score: 0.5070158839225769
+Test Accuracy: 0.21666644513607025
+
+```
 
 ### Model 2.0
 
@@ -155,16 +212,6 @@ identity_hate       0.40      0.00      0.01       712
   
 ```
 
-### Model 3.0
 
-Using LSTM with dropout. Accuarncy got only 18.4% (Overfitting)
-
-```
-2000/2000 [==============================] - 23s 11ms/step - loss: 0.5070 - dense_8_loss: 0.2167 - dense_9_loss: 0.0189 - dense_10_loss: 0.1153 - dense_11_loss: 0.0150 - dense_12_loss: 0.1050 - dense_13_loss: 0.0361 - dense_8_acc: 0.9138 - dense_9_acc: 0.9932 - dense_10_acc: 0.9561 - dense_11_acc: 0.9966 - dense_12_acc: 0.9598 - dense_13_acc: 0.9893
-Test Score: 0.5070158839225769
-Test Accuracy: 0.21666644513607025
-
-```
-
-## Some resource
+## Some Resource
 * [loss function](https://neptune.ai/blog/keras-loss-functions) - (It's fruitful!!)
