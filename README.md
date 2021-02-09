@@ -14,14 +14,14 @@ unzip glove.6B.zip
 
 ### Model 4.0 
 * Aim to improve data imbalance situation (use tech of loss function revised)
-* Transfer-learning - `word representation` + LSTM /w `Focal Loss` 
+* Transfer-learning - `word representation` + `LSTM` /w `Focal Loss` 
 
 ### Model 3.0
-* Transfer-learning - `word representation` + LSTM /w `multiple output layers`
+* Transfer-learning - `word representation` + `LSTM` /w `multiple output layers`
 * Establish & tuning `LSTM` model.
 
 ### Model 2.0
-* Transfer-learning - `word representation` + LSTM /w `single output layer but have multiple neurons` 
+* Transfer-learning - `word representation` + `LSTM` /w `single output layer but have multiple neurons` 
 * Establish & tuning `LSTM` model.
 
 ### Data Observation
