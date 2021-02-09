@@ -233,30 +233,13 @@ for idx,c in enumerate(clas_names):
   values = df[c].value_counts().tolist() #[pos_num, neg_num]
   positive_weights[c] = np.divide(df.shape[0], values[0] )
   negative_weights[c] = np.divide(df.shape[0],values[1])
-  class_weights[c] = negative_weights[c]/positive_weights[c]
+  class_weights[idx] = negative_weights[c]/positive_weights[c]
   sampe_weights.append(int(negative_weights[c]/positive_weights[c]))
 print(positive_weights)
 print(negative_weights)
 # print(sampe_weights)
-# class_weights = numpy.array(sampe_weights)
-
-positive_weights = {}
-negative_weights = {}
-for c in clas_names:
-    positive_weights[c] = df.shape[0]/(2*np.count_nonzero(df[c]==1))
-    negative_weights[c] = df.shape[0]/(2*np.count_nonzero(df[c]==0))
-print(positive_weights)
-print(negative_weights)
-
-y_true = [[0., 1.], [0.2, 0.8],[0.3, 0.7],[0.4, 0.6]]
-y_pred = [[0.6, 0.4], [0.4, 0.6],[0.6, 0.4],[0.8, 0.2]]
-bce = tf.keras.losses.BinaryCrossentropy(reduction='sum_over_batch_size')
-bce(y_true, y_pred).numpy()
-
-bce = tf.keras.losses.BinaryCrossentropy(reduction='none')
-print(bce(y_true, y_pred).numpy())
-bce = tf.keras.losses.BinaryCrossentropy(reduction='sum_over_batch_size')
-bce(y_true, y_pred).numpy()
+print(class_weights)
+print(clas_names)
 
 #it works
 from keras import backend as K 
@@ -265,20 +248,22 @@ def calculating_class_weights(y_true):
     number_dim = np.shape(y_true)[1]
     weights = np.empty([number_dim, 2])
     for i in range(number_dim):
-        weights[i] = compute_class_weight('balanced', [0.,1.], y_true[:, i])
+        weights[i] = compute_class_weight('balanced', np.unique(y_true), y_true[:, i])
     return weights
 
 def get_weighted_loss(weights):
     def weighted_loss(y_true, y_pred):
-      y_true = np.float32(y_true)
-      # return K.mean((weights[:,0]**(1-y_true))*(weights[:,1]**(y_true)), axis=-1)
-      a = K.pow(weights[:,0],(1-y_true))
+      
+      a = K.pow(weights[:,0],(1-y_true)).numpy()
       b = np.float32(weights[:,1]**(y_true))
       bce = tf.keras.losses.BinaryCrossentropy()
-      c = bce(y_true, y_pred).numpy() 
+      c = bce(y_true, y_pred).numpy(dtype = float32) 
       return K.mean(a*b*c, axis=-1)
     return weighted_loss
-weights = calculating_class_weights(Y_TRAIN)
+weights = calculating_class_weights(np.float32(Y_TRAIN))
+ws = {}
+for i in range(len(weights[:,1])):
+  ws[i] = weights[i][1]
 
 from keras.losses import binary_crossentropy
 import tensorflow_addons as tfa
@@ -289,26 +274,24 @@ lstm_model = Sequential()
 lstm_model.add(Embedding(vocab_size, 300, weights = [embedding_matrix], trainable = False))
 lstm_model.add(LSTM(128))
 lstm_model.add(Dense(6, activation='sigmoid'))
-# lstm_model.compile(optimizer='adam', loss = get_weighted_loss(weights))
 lstm_model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc','AUC'])
 # lstm_model.compile(loss= tfa.losses.SigmoidFocalCrossEntropy(), optimizer='adam', metrics=['acc','AUC'])
-
 # lstm_model.compile(loss = get_weighted_loss(weights), optimizer='adam', metrics=['acc'])
 print('Training...')
+history = lstm_model.fit(X_TRAIN, Y_TRAIN, class_weight = ws, batch_size=batch_size, epochs = 7, validation_split=0.2)
 
-history = lstm_model.fit(X_TRAIN, np.float32(Y_TRAIN), batch_size=batch_size, epochs = 7, validation_split=0.2)
-
-score, acc, auc = lstm_model.evaluate(X_TEST, np.float32(Y_TEST),
+score, acc,auc = lstm_model.evaluate(X_TEST, Y_TEST,
                             batch_size=batch_size)
 
 print('Test accuracy:', acc)
-print("Generating test predictions...")
+print('Test AUC-ROC:', auc)
 
 print(lstm_model.summary())
 
 from keras.utils import plot_model
 plot_model(lstm_model, to_file='model_plot.png', show_shapes=True, show_layer_names=True)
 
+print("Generating test predictions...")
 score = lstm_model.evaluate(X_TEST, np.float32(Y_TEST), verbose=1)
 
 print("Loss:", score[0])
