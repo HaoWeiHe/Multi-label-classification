@@ -98,35 +98,35 @@ As per the mean and standard diviation from this data observation, we can set ou
 </div>
 A glimsp of our high frequency words
 
-- Accurancy trend (Model 2.0)
+- Learning Curve - Accurancy (Model 2.0)
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/acc.png" alt="Editor" width="500">
 </div>
 
-- Loss trend (Model 2.0)
+- Learning Curve - Loss (Model 2.0)
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/trend.png" alt="Editor" width="500">
 </div>
 
 
-- Loss trend (Model 3.0)
+- Learning Curve - Loss (Model 3.0)
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/sc2_loss.png" alt="Editor" width="500">
 </div>
 It's overfitting when we change the last layer to mutiple-output, but keep others the same
 
 
-- Acc trend (Model 4.0)
+- Learning Curve - Acc (Model 4.0)
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/acc_foss.png" alt="Editor" width="500">
 </div>
 
-- Loss trend (Model 4.0)
+- Learning Curve - Loss (Model 4.0)
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/loss%20foss.png" alt="Editor" width="500">
 </div>
 
-- AUC-ROC trend (Model 4.0)
+- Learning Curve - AUC-ROC (Model 4.0)
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/auc_foss.png" alt="Editor" width="500">
 </div>
