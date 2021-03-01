@@ -12,9 +12,13 @@ unzip glove.6B.zip
 
 ## What's New
 
+### Model 4.1
+* Aim to use contexual word embedding to implement
+*  `Bert ` /w  ` BCEWithLogitsLoss`
+
 ### Model 4.0 
 * Aim to improve data imbalance situation (use tech of loss function revised)
-* Transfer-learning - `word representation` + `LSTM` /w `Focal Loss` 
+* Transfer-learning - `stastical word representation` + `LSTM` /w `Focal Loss` 
 
 ### Model 3.0
 * Transfer-learning - `word representation` + `LSTM` /w `multiple output layers`
