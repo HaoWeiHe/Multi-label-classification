@@ -7,6 +7,9 @@ Original file is located at
     https://colab.research.google.com/drive/1Up1LxTPMOHmsjflpXbW-m3TbAeoyd_pl
 """
 
+# !wget http://nlp.stanford.edu/data/glove.6B.zip
+# !unzip glove.6B.zip
+
 # #The dataset we use can be downloaded from Kaggle(https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview)
 !unzip train.csv.zip
 import pandas as pd
@@ -49,6 +52,7 @@ def preprocessing_for_bert(data):
 
     return input_ids, attention_masks
 
+# df = df[~(df.comment_text.apply(lambda x : len(x)) > MAX_LENGTH)]
 labels = df[["toxic", "severe_toxic", "obscene", "threat", "insult", "identity_hate"]]
 label_counts = labels.sum(axis=0)
 
@@ -66,11 +70,38 @@ def split_train_test(X, Y, test_size = 0.2, shuffle_state = True ):
       
 X_train, X_val, Y_train, Y_val = split_train_test(df, labels.values)
 
+df_test = df_test[(df_test_label.severe_toxic > -1) & 
+              (df_test_label.toxic > -1) & 
+              (df_test_label.obscene > -1) & 
+              (df_test_label.threat > -1) & 
+              (df_test_label.insult > -1) & 
+              (df_test_label.identity_hate > -1) ]
+
+df_test_label = df_test_label[(df_test_label.severe_toxic > -1) & 
+              (df_test_label.toxic > -1) & 
+              (df_test_label.obscene > -1) & 
+              (df_test_label.threat > -1) & 
+              (df_test_label.insult > -1) & 
+              (df_test_label.identity_hate > -1) ]
+
+
+
+df_test_label = df_test_label.drop(['id'], axis=1)
+df_test_label = df_test_label.reset_index()
+df_test = df_test.reset_index()
+
+df_test_label = df_test_label.drop(['index'], axis=1)
+
+X_test = df_test["comment_text"].to_list()
+Y_test = df_test_label.values
+
 train_inputs, train_masks = preprocessing_for_bert(X_train)
 val_inputs, val_masks = preprocessing_for_bert(X_val)
-
 train_labels = torch.tensor(Y_train)
 val_labels = torch.tensor(Y_val)
+
+test_input, test_masks  = preprocessing_for_bert(X_test)
+test_labels = torch.tensor(Y_test)
 
 from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
 
@@ -85,7 +116,13 @@ train_dataloader = DataLoader(train_data, sampler=train_sampler, batch_size=batc
 # Create the DataLoader for our validation set
 val_data = TensorDataset(val_inputs, val_masks, val_labels)
 val_sampler = SequentialSampler(val_data)
+
 val_dataloader = DataLoader(val_data, sampler=val_sampler, batch_size=batch_size)
+
+# Create the DataLoader for our testing set
+test_data = TensorDataset(test_input, test_masks, test_labels)
+test_sampler = RandomSampler(test_data)
+test_dataloader = DataLoader(test_data, sampler = test_sampler, batch_size=batch_size)
 
 !pip install pytorch-transformers
 
@@ -135,6 +172,7 @@ def initialize_model(epochs=4):
                       )
     total_steps = len(train_dataloader) * epochs
 
+    # Set up the learning rate scheduler
     scheduler = get_linear_schedule_with_warmup(optimizer,
                                                 num_warmup_steps = 0,
                                                 num_training_steps = total_steps)
@@ -142,7 +180,7 @@ def initialize_model(epochs=4):
 
 import random
 import time
-
+import matplotlib.pyplot as plt 
 loss_fct = nn.BCEWithLogitsLoss()
 
 def set_seed(seed_value = 62):
@@ -157,7 +195,11 @@ NUM_LABELS = 6
 from tqdm import tqdm 
 
 print("start training...")
+
 def train(model, train_dataloader, val_dataloader = None, epochs = 4, evaluation = False):
+    val_loss_vals = []
+    loss_vals = []
+    val_auc_values = []
     for epoch_i in tqdm(range(epochs)):
         
         print(f"\n{'Epoch':^7} | {'Batch':^7} | {'Train Loss':^12} | {'Val Loss':^10} | {'Val Acc':^9} |{'AUC_ROC':^9} | {'Elapsed':^9}")
@@ -166,7 +208,7 @@ def train(model, train_dataloader, val_dataloader = None, epochs = 4, evaluation
         t0_epoch, t0_batch = time.time(), time.time()
         total_loss, batch_loss, batch_counts = 0, 0, 0
         model.train()
-
+        
         for step, batch in enumerate(train_dataloader):
             batch_counts += 1
             b_input_ids, b_attn_mask, b_labels = tuple(t.to(device) for t in batch)
@@ -177,7 +219,7 @@ def train(model, train_dataloader, val_dataloader = None, epochs = 4, evaluation
             loss = loss_fct(output.view(-1, 6), b_labels.view(-1, 6).type_as(output))
             batch_loss += loss.item()
             total_loss += loss.item()
-
+            
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0) #
             optimizer.step()
@@ -185,27 +227,47 @@ def train(model, train_dataloader, val_dataloader = None, epochs = 4, evaluation
 
             # Print the loss values and time elapsed for every 20 batches
             if (step % 20 == 0 and step != 0) or (step == len(train_dataloader) - 1):
-                # Calculate time elapsed for 20 batches
                 time_elapsed = time.time() - t0_batch
 
                 # Print training results
-                print(f"{epoch_i + 1:^7} | {step:^7} | {batch_loss / batch_counts:^12.6f} | {'-':^10} | {'-':^9}| {'-':^9} | {time_elapsed:^9.2f}")
+                # print(f"{epoch_i + 1:^7} | {step:^7} | {batch_loss / batch_counts:^12.6f} | {'-':^10} | {'-':^9}| {'-':^9} | {time_elapsed:^9.2f}")
 
                 batch_loss, batch_counts = 0, 0
                 t0_batch = time.time()
+                  
         avg_train_loss = total_loss / len(train_dataloader)
-    
+        print('Finished Training Trainset')
+        loss_vals.append(avg_train_loss)
+
         print("Evaluation...")
         if evaluation == True:
-            
             val_loss, val_accuracy, val_aucroc = evaluate(model, val_dataloader)
-
             time_elapsed = time.time() - t0_epoch
             print(f"{epoch_i + 1:^7} | {'-':^7} | {avg_train_loss:^12.6f} | {val_loss:^10.6f} | {val_accuracy:^9.2f} | {val_aucroc:^9.2f} | {time_elapsed:^9.2f}")
             print("-"*70)
+            val_auc_values.append(val_aucroc)
+            val_loss_vals.append(val_loss)
+        
         print("\n")
-    
+        
     print("Training complete!")
+    
+    plt.plot(np.array(val_loss_vals))
+    plt.title('model loss')
+    plt.ylabel('loss')
+    plt.xlabel('epoch')
+    plt.legend(['train'], loc='upper left')
+    plt.xticks(np.arange(len(val_loss_vals), step=1))
+    plt.show()
+
+    plt.plot(np.array(val_auc_values))
+    plt.title('model AUC-ROC')
+    plt.ylabel('loss')
+    plt.xlabel('epoch')
+    plt.legend(['train'], loc='upper left')
+    plt.xticks(np.arange(len(val_auc_values), step=1))
+    plt.show()
+
 
 import numpy as np
 
@@ -214,11 +276,12 @@ def evaluate(model, val_dataloader,thresh = 0.5, sigmoid = True ):
     on our validation set.
     """
     model.eval()
-
+    
     # Tracking variables
-    val_accuracy = []
-    val_loss = []
-    val_aucroc = []
+    val_accuracy, val_loss,val_aucroc = [], [],[]
+    val_micro_precision, val_micro_recall, val_micro_f1 = [], [], []
+    val_macro_precision,  val_macro_recall, val_macro_f1 = [],[],[]
+
     # For each batch in our validation set...
     for batch in val_dataloader:
         
@@ -231,12 +294,10 @@ def evaluate(model, val_dataloader,thresh = 0.5, sigmoid = True ):
         # Compute loss    
         loss = loss_fct(logits, b_labels.type_as(logits))
         val_loss.append(loss.item())
-
+        
         # Calculate the accuracy rate
         if sigmoid: logits = logits.sigmoid()
     
-        #===========
-
         y_preds = (logits > 0.5).float().cpu().numpy()
         y_true = b_labels.byte().float().cpu().numpy()
 
@@ -244,8 +305,6 @@ def evaluate(model, val_dataloader,thresh = 0.5, sigmoid = True ):
         acc = accuracy_score(y_true, y_preds)
         
         from sklearn.metrics import roc_curve, auc
-
-        # Compute ROC curve and ROC area for each class
         fpr = dict()
         tpr = dict()
         roc_auc = dict()
@@ -260,34 +319,104 @@ def evaluate(model, val_dataloader,thresh = 0.5, sigmoid = True ):
         val_aucroc.append(roc_auc["micro_avg"])
         
         from sklearn.metrics import classification_report
-        report = classification_report(y_true, y_preds, output_dict=True)
-        print(report)
-        # macro_precision =  report['macro avg']['precision'] 
-        # macro_recall = report['macro avg']['recall']    
-        # macro_f1 = report['macro avg']['f1-score']
-        # f1 = report['micro avg']['f1-score']
-        #====
+        # report = classification_report(y_true, y_preds, output_dict=True)
+        # print(report)
+
+        # append metrics to list 
         val_accuracy.append(acc)
-        
-    # # Compute the average accuracy and loss over the validation set.
-   
+     
+    print('Finished validata')
+
+
+
     val_loss = np.mean(val_loss)
     val_accuracy = np.mean(val_accuracy)
     val_auc_roc = np.mean(val_aucroc)
-    
-    
+   
     return val_loss, val_accuracy,val_auc_roc
 
 bert_classifier, optimizer, scheduler = initialize_model(epochs=5)
 
-al_loss, val_accuracy, val_aucroc = evaluate(bert_classifier, val_dataloader)
-
-# val_loss, val_accuracy, val_aucroc = evaluate(bert_classifier, val_dataloader)
-print(val_loss, val_accuracy, val_aucroc)
-
 # print(bert_classifier)
+# # !pip install torchviz
+# # batch = next(iter(train_dataloader))
 
-train(bert_classifier, train_dataloader, val_dataloader, epochs=5, evaluation=True)
+# # b_input_ids, b_attn_mask, b_labels = tuple(t.to(device) for t in batch)
+# # yhat = bert_classifier(b_input_ids, b_attn_mask)
+# # from torchviz import make_dot
+# # make_dot(yhat, params=dict(list(bert_classifier.named_parameters()))).render("rnn_torchviz", format="png")
+
+train(bert_classifier, train_dataloader, val_dataloader, epochs = 5, evaluation = True)
+
+val_loss, val_accuracy, val_aucroc = evaluate(bert_classifier, val_dataloader)
+
+print(f"""
+          val_loss = {val_loss},
+          val_accuracy = {val_accuracy},
+          val_aucroc = {val_aucroc}
+""")
 
 torch.save(bert_classifier.state_dict(), "here")
+
+def get_predictions(model, dataloader, compute_acc = False, sigmoid = True):
+    predictions = None
+    correct = 0
+    total = 0
+    acc_vals = []
+    auc_valus = []
+    with torch.no_grad():
+        
+        for batch in dataloader:
+
+            b_input_ids, b_attn_mask, b_labels = tuple(t.to(device) for t in batch)
+
+            outputs = model(b_input_ids,
+                            b_attn_mask)
+            
+            if sigmoid: 
+              logits = outputs.sigmoid()
+            pred = (logits > 0.5).float().cpu().numpy()   
+            y_true = b_labels.byte().float().cpu().numpy()
+
+            if compute_acc:
+              from sklearn.metrics import accuracy_score
+              acc = accuracy_score(y_true, pred)
+              
+              from sklearn.metrics import roc_curve, auc
+              fpr = dict()
+              tpr = dict()
+              roc_auc = dict()
+              logits = logits.float().cpu().numpy()
+              for i in range(6):
+                  fpr[i], tpr[i], _ = roc_curve(y_true[:, i], logits[:, i])
+                  roc_auc[i] = auc(fpr[i], tpr[i])
+              
+              # Compute micro-average ROC curve and ROC area
+              fpr["micro_avg"], tpr["micro_avg"], _ = roc_curve(y_true.ravel(), logits.ravel())
+              roc_auc["micro_avg"] = auc(fpr["micro_avg"], tpr["micro_avg"])
+              auc_valus.append(roc_auc["micro_avg"])
+              
+              from sklearn.metrics import classification_report
+              acc_vals.append(acc)
+          
+        print('Finished prediction')
+                
+        if predictions is None:
+            predictions = pred
+        else:
+            predictions = torch.cat((predictions, pred))
+
+    if compute_acc:
+        acc_vals = np.mean(acc_vals)
+        val_auc_roc = np.mean(auc_valus)
+        return predictions, acc_vals, val_auc_roc
+    return predictions
+    
+
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+print("device:", device)
+
+_, acc, auc_roc = get_predictions(bert_classifier, test_dataloader, compute_acc=True)
+print("classification acc:", acc) 
+print("classification auc:", auc_roc)
 
