@@ -39,7 +39,7 @@ unzip glove.6B.zip
 - Testing set - all data from test.csv except the data with value of -1, which which means it was not used for scoring
 
 ## Model Strucutre
-- Model 4.1
+- Model 4.1 - bert mulit-label refine 
 ```
 MultiLabel(
   (bert): BertModel(
@@ -87,13 +87,13 @@ MultiLabel(
   (classifier): Linear(in_features=768, out_features=6, bias=True)
 )
 ```
-- Model 3.0
+- Model 3.0 -multiple output layers
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/structure2.png" alt="Editor" width="900">
 </div>
 
 
-- Model 2.0
+- Model 2.0 - single output layer /w multiple neurons
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/structure1.png" alt="Editor" width="400">
 </div>
