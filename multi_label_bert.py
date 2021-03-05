@@ -134,7 +134,7 @@ from transformers import BertModel
 
 class MultiLabel(nn.Module):
     @pysnooper.snoop()
-    def __init__(self, freeze_bert = False):
+    def __init__(self, freeze_bert = True):
         super(MultiLabel, self).__init__()
         self.num_labels = 6
         D_in = 768 #config.hidden_size (of bert)
@@ -154,7 +154,9 @@ class MultiLabel(nn.Module):
            
         outputs = self.bert(input_ids = tokens_tensors,
                             attention_mask = masks_tensors)
-        logits = self.classifier(outputs[0][:, 0, :])
+        outputs = self.dropout(outputs[0][:, 0, :])
+        logits = self.classifier(outputs)
+        
         return logits
 
 # model = MultiLabel()
@@ -197,9 +199,10 @@ from tqdm import tqdm
 print("start training...")
 
 def train(model, train_dataloader, val_dataloader = None, epochs = 4, evaluation = False):
-    val_loss_vals = []
     loss_vals = []
-    val_auc_values = []
+    acc_vals = []
+    val_loss_vals = []
+    val_acc_values = []
     for epoch_i in tqdm(range(epochs)):
         
         print(f"\n{'Epoch':^7} | {'Batch':^7} | {'Train Loss':^12} | {'Val Loss':^10} | {'Val Acc':^9} |{'AUC_ROC':^9} | {'Elapsed':^9}")
@@ -230,45 +233,54 @@ def train(model, train_dataloader, val_dataloader = None, epochs = 4, evaluation
                 time_elapsed = time.time() - t0_batch
 
                 # Print training results
-                # print(f"{epoch_i + 1:^7} | {step:^7} | {batch_loss / batch_counts:^12.6f} | {'-':^10} | {'-':^9}| {'-':^9} | {time_elapsed:^9.2f}")
+                print(f"{epoch_i + 1:^7} | {step:^7} | {batch_loss / batch_counts:^12.6f} | {'-':^10} | {'-':^9}| {'-':^9} | {time_elapsed:^9.2f}")
 
                 batch_loss, batch_counts = 0, 0
                 t0_batch = time.time()
                   
         avg_train_loss = total_loss / len(train_dataloader)
-        print('Finished Training Trainset')
-        loss_vals.append(avg_train_loss)
+        
 
-        print("Evaluation...")
+        
         if evaluation == True:
             val_loss, val_accuracy, val_aucroc = evaluate(model, val_dataloader)
+            train_loss, train_accuracy, train_aucroc = evaluate(model, train_dataloader)
             time_elapsed = time.time() - t0_epoch
-            print(f"{epoch_i + 1:^7} | {'-':^7} | {avg_train_loss:^12.6f} | {val_loss:^10.6f} | {val_accuracy:^9.2f} | {val_aucroc:^9.2f} | {time_elapsed:^9.2f}")
-            print("-"*70)
-            val_auc_values.append(val_aucroc)
+            print(f"{epoch_i + 1:^7} | {'-':^7} | {avg_train_loss:^12.6f} | {val_loss:^10.6f} | {val_accuracy:^9.2f} | {val_aucroc:^9.2f} | {val_accuracy:^9.2f}|{time_elapsed:^9.2f}")
+            # print("-"*70)
+
+            val_acc_values.append(val_accuracy)
             val_loss_vals.append(val_loss)
-        
+            loss_vals.append(train_loss)
+            acc_vals.append(train_accuracy)
+
+            print("val_accuracy",val_accuracy)
+            print("train_accuracy", train_accuracy)
         print("\n")
         
     print("Training complete!")
-    
-    plt.plot(np.array(val_loss_vals))
+
     plt.title('model loss')
+    plt.plot(np.array(loss_vals))
+    plt.plot(np.array(val_loss_vals))
     plt.ylabel('loss')
     plt.xlabel('epoch')
-    plt.legend(['train'], loc='upper left')
+    plt.legend(['train','val'], loc='upper left')
     plt.xticks(np.arange(len(val_loss_vals), step=1))
     plt.show()
 
-    plt.plot(np.array(val_auc_values))
-    plt.title('model AUC-ROC')
-    plt.ylabel('loss')
+    plt.plot(np.array(acc_vals))
+    plt.plot(np.array(val_acc_values))
+    plt.title('model accurancy')
+    
+    plt.ylabel('acc')
     plt.xlabel('epoch')
-    plt.legend(['train'], loc='upper left')
-    plt.xticks(np.arange(len(val_auc_values), step=1))
+    plt.legend(['train','val'], loc='upper left')
+    plt.xticks(np.arange(len(val_acc_values), step=1))
     plt.show()
 
-
+    
+    
 import numpy as np
 
 def evaluate(model, val_dataloader,thresh = 0.5, sigmoid = True ):
@@ -335,7 +347,7 @@ def evaluate(model, val_dataloader,thresh = 0.5, sigmoid = True ):
    
     return val_loss, val_accuracy,val_auc_roc
 
-bert_classifier, optimizer, scheduler = initialize_model(epochs=5)
+bert_classifier, optimizer, scheduler = initialize_model(epochs=2)
 
 # print(bert_classifier)
 # # !pip install torchviz
@@ -346,7 +358,13 @@ bert_classifier, optimizer, scheduler = initialize_model(epochs=5)
 # # from torchviz import make_dot
 # # make_dot(yhat, params=dict(list(bert_classifier.named_parameters()))).render("rnn_torchviz", format="png")
 
-train(bert_classifier, train_dataloader, val_dataloader, epochs = 5, evaluation = True)
+# print(bert_classifier)
+
+# bert_classifier= torch.load('bert_classifier.pkl')
+
+train(bert_classifier, train_dataloader, val_dataloader, epochs = 6, evaluation = True)
+
+torch.save(bert_classifier,"bert_classifier.pkl")
 
 val_loss, val_accuracy, val_aucroc = evaluate(bert_classifier, val_dataloader)
 
@@ -364,20 +382,23 @@ def get_predictions(model, dataloader, compute_acc = False, sigmoid = True):
     total = 0
     acc_vals = []
     auc_valus = []
+    model.eval()
     with torch.no_grad():
         
         for batch in dataloader:
 
             b_input_ids, b_attn_mask, b_labels = tuple(t.to(device) for t in batch)
 
-            outputs = model(b_input_ids,
+            logits = model(b_input_ids,
                             b_attn_mask)
             
             if sigmoid: 
-              logits = outputs.sigmoid()
+              logits = logits.sigmoid()
             pred = (logits > 0.5).float().cpu().numpy()   
             y_true = b_labels.byte().float().cpu().numpy()
-
+            # from collections import Counter
+            # print(Counter(y_true))
+            # (y_true)
             if compute_acc:
               from sklearn.metrics import accuracy_score
               acc = accuracy_score(y_true, pred)
@@ -409,14 +430,16 @@ def get_predictions(model, dataloader, compute_acc = False, sigmoid = True):
     if compute_acc:
         acc_vals = np.mean(acc_vals)
         val_auc_roc = np.mean(auc_valus)
-        return predictions, acc_vals, val_auc_roc
+        return predictions, acc_vals
     return predictions
     
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-print("device:", device)
+# device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+# print("device:", device)
 
-_, acc, auc_roc = get_predictions(bert_classifier, test_dataloader, compute_acc=True)
+preds, acc = get_predictions(bert_classifier, test_dataloader, compute_acc = True)
 print("classification acc:", acc) 
-print("classification auc:", auc_roc)
+# print("classification auc:", auc_roc)
+
+
 
