@@ -1,10 +1,10 @@
 #  Multi-label-classification 
 Multi-label-classificationis a project for toxic comment classification.(Take kaggle toxic-comment-classification-challenge as our dataset). In this repository we will expore different model options to solve multi-label problem using static word embedding and contextual word representation in different models.
 
-# Problem Description
+## Problem Description
 You’re challenged to build a multi-headed model that’s capable of detecting different types of of toxicity like threats, obscenity, insults, and identity-based hate better than Perspective’s current models. You’ll be using a dataset of comments from Wikipedia’s talk page edits. Improvements to the current model will hopefully help online discussion become more productive and respectful. 
 
-### Different between multi-label and multi-class
+## Different between multi-label and multi-class
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-label-classification/blob/main/Img/multi-label.png" alt="Editor" width="700">
 </div>
