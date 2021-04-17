@@ -29,7 +29,7 @@ Another modeling options are tree beased models with dense features. Trees are e
 With sufficient computational power and the amount of data, deep learning can be very powerful in predicting comment types. Training the model as well as evaluation could be very expensive, but we still have some tech to solve this. Such as multi-task. In this repostory, we will focus on this technique.
 
 ## What's multi-task?
-
+(to be continue)
 
 ## Data Resource
 * [Toxic comment](https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview)
