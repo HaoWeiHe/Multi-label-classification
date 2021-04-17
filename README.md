@@ -11,9 +11,22 @@ You’re challenged to build a multi-headed model that’s capable of detecting 
 </div>
 The picture shows the different between multi-label and multi-class problem. This picture was credited by EurLex.
 
+
 A multi-class task assume that one picture only have one class at a time, while a milti-label task assume that one picture could have serveral classes. In our task, every toxic comment could have serveral toxicity types at the same time. (For instance, a comment could have both "threat" and "insult").
 
 To sum up, in the task is to predict the probability of different toxicity types for a given comment. So, essentially, our models are going to predict the properbility of insult, threat and toxic etc. i.e., P(insult), P(threat) and P(toxic). Looking at the training data, we knoe that this is a classification problem where we want to maximize area under the curve(AUC) and check the precision/recall/f1 for its had imbalanced data issue.
+
+## Model options
+
+There are serveral models to pridict toxic types using dense features. Such as logistic regression, tree-base models or deep learning. 
+* Logistic regression
+One of the advantage of logistic regression is resonable for effiecent to train and predict. (It only takes O(n) time complexity). In additional, it also extremely interpretable. However, A major limitation of the linear model is that it assumes linearity exists between the input features and prediction.
+
+* Tree based models
+Another modeling options are tree beased models with dense features. Trees are effiecent, interpreatable and  able to utilize non-linear relations between features that aren't avaliable to Logistic regression. However, the training time-complexity is higher than LR.
+
+* Deep learning model 
+With sufficient computational power and the amount of data, deep learning can be very powerful in predicting comment types. Training the model as well as evaluation could be very expensive, but we still have some tech to solve this. Such as multi-task. In this repostory, we will focus on this technique.
 
 ## What's multi-task?
 
