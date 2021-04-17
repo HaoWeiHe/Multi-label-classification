@@ -1,5 +1,17 @@
-# Multi-lable-classification
-Multi-lable-classificationis a project for toxic comment classification.(Take kaggle toxic-comment-classification-challenge as our dataset)
+#  Multi-label-classification 
+Multi-label-classificationis a project for toxic comment classification.(Take kaggle toxic-comment-classification-challenge as our dataset). In this repository we will expore different model options to solve multi-label problem using static word embedding and contextual word representation in different models.
+
+# Problem Description
+You’re challenged to build a multi-headed model that’s capable of detecting different types of of toxicity like threats, obscenity, insults, and identity-based hate better than Perspective’s current models. You’ll be using a dataset of comments from Wikipedia’s talk page edits. Improvements to the current model will hopefully help online discussion become more productive and respectful.[challenge]https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge
+
+
+### Different between multi-label and multi-class
+<div align="center">
+	<img src="https://github.com/HaoWeiHe/Multi-label-classification/blob/main/Img/multi-label.png" alt="Editor" width="700">
+</div>
+The picture shows the different between multi-label and multi-class problem. credit by [here] https://suhitaghosh10.github.io/EurLexClassification/
+
+A multi-class task assume that one picture only have one class at a time, while a milti-label task assume that one picture could have serveral classes. In our task, every toxic comment could have serveral toxicity types at the same time. (For instance, a comment could have both "threat" and "insult")
 
 
 ## Data Resource
@@ -9,6 +21,54 @@ Multi-lable-classificationis a project for toxic comment classification.(Take ka
 wget http://nlp.stanford.edu/data/glove.6B.zip
 unzip glove.6B.zip
 ```
+## Observation
+
+- What does the data look like?
+<div align="center">
+	<img src="https://github.com/HaoWeiHe/multi-lable-classification/blob/main/Img/data_sample.png" alt="Editor" width="700">
+</div>
+
+
+- Generate descriptive statistics
+<div align="center">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/categories.png" alt="Editor" width="700">
+</div>
+
+- Total comment counts for different labels
+<div align="center">
+	<img src="https://github.com/HaoWeiHe/multi-lable-classification/blob/main/Img/commentCounts.png" alt="Editor" width="500">
+</div>
+A quick calculation : sum(label_counts)/num_of_sample = 35098/159571 = 0.219, which indicate that the lower bound(accurancy metric) is around 78.1%
+
+
+- Count numbers of different categories (Training set)
+<div align="center">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/mulit-label-count.png" alt="Editor" width="700">
+</div>
+
+- Count numbers of different categories (Testing set before data restructure)
+<div align="center">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/test_ori.png" alt="Editor" width="700">
+</div>
+
+
+- Count numbers of different categories (Testing set after data constructure)
+<div align="center">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/test.png" alt="Editor" width="700">
+</div> 
+
+
+- Word Length distribution
+<div align="center">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/word_frequency_distribution.png" alt="Editor" width="700">
+</div>
+As per the mean and standard diviation from this data observation, we can set our embedding length to 255 and it can contain around 95% words in a text
+
+- Word colud
+<div align="center">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/wordCloud.png" alt="Editor" width="700">
+</div>
+A glimsp of our high frequency words
 
 ## What's New
 
@@ -98,57 +158,7 @@ MultiLabel(
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/structure1.png" alt="Editor" width="400">
 </div>
 
-
-
-
-## Observation
-
-- What does the data look like?
-<div align="center">
-	<img src="https://github.com/HaoWeiHe/multi-lable-classification/blob/main/Img/data_sample.png" alt="Editor" width="700">
-</div>
-
-
-- Generate descriptive statistics
-<div align="center">
-	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/categories.png" alt="Editor" width="700">
-</div>
-
-- Total comment counts for different labels
-<div align="center">
-	<img src="https://github.com/HaoWeiHe/multi-lable-classification/blob/main/Img/commentCounts.png" alt="Editor" width="500">
-</div>
-A quick calculation : sum(label_counts)/num_of_sample = 35098/159571 = 0.219, which indicate that the lower bound(accurancy metric) is around 78.1%
-
-
-- Count numbers of different categories (Training set)
-<div align="center">
-	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/mulit-label-count.png" alt="Editor" width="700">
-</div>
-
-- Count numbers of different categories (Testing set before data restructure)
-<div align="center">
-	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/test_ori.png" alt="Editor" width="700">
-</div>
-
-
-- Count numbers of different categories (Testing set after data constructure)
-<div align="center">
-	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/test.png" alt="Editor" width="700">
-</div> 
-
-
-- Word Length distribution
-<div align="center">
-	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/word_frequency_distribution.png" alt="Editor" width="700">
-</div>
-As per the mean and standard diviation from this data observation, we can set our embedding length to 255 and it can contain around 95% words in a text
-
-- Word colud
-<div align="center">
-	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/wordCloud.png" alt="Editor" width="700">
-</div>
-A glimsp of our high frequency words
+## Training 
 
 - Learning Curve - Accurancy (Model 2.0)
 <div align="center">
