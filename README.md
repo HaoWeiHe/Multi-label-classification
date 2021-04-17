@@ -14,7 +14,7 @@ The picture shows the different between multi-label and multi-class problem. Thi
 
 A multi-class task assume that one picture only have one class at a time, while a milti-label task assume that one picture could have serveral classes. In our task, every toxic comment could have serveral toxicity types at the same time. (For instance, a comment could have both "threat" and "insult").
 
-To sum up, in the task is to predict the probability of different toxicity types for a given comment. So, essentially, our models are going to predict the properbility of insult, threat and toxic etc. i.e., P(insult), P(threat) and P(toxic). Looking at the training data, we knoe that this is a classification problem where we want to maximize area under the curve(AUC) and check the precision/recall/f1 for its had imbalanced data issue.
+In the task is to predict the probability of different toxicity types for a given comment. So, essentially, our models are going to predict the properbility of insult, threat and toxic etc. i.e., P(insult), P(threat) and P(toxic). Looking at the training data, we knoe that this is a classification problem where we want to maximize area under the curve(AUC) and check the precision/recall/f1, since it have imbalanced data issue.
 
 ## Model options
 
