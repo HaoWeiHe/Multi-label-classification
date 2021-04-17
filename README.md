@@ -1,5 +1,5 @@
 #  Multi-label-classification 
-Multi-label-classificationis a project for toxic comment classification.(Take kaggle toxic-comment-classification-challenge as our dataset). In this repository we will expore different model options to solve multi-label problem using static word embedding and contextual word representation in different models.
+Multi-label-classificationis a project for toxic comment classification.(Take kaggle toxic-comment-classification-challenge as our dataset). In this repository we will expore different multi-task models to solve multi-label problem using static word embedding and contextual word representation in different models. 
 
 ## Problem Description
 You’re challenged to build a multi-headed model that’s capable of detecting different types of of toxicity like threats, obscenity, insults, and identity-based hate better than Perspective’s current models. You’ll be using a dataset of comments from Wikipedia’s talk page edits. Improvements to the current model will hopefully help online discussion become more productive and respectful. [refer here](https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge)
@@ -8,8 +8,8 @@ You’re challenged to build a multi-headed model that’s capable of detecting 
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-label-classification/blob/main/Img/multi-label.png" alt="Editor" width="700">
 </div>
-The picture shows the different between multi-label and multi-class problem. 
-credit by [here](https://suhitaghosh10.github.io/EurLexClassification/)
+The picture shows the different between multi-label and multi-class problem. This picture was credited by [here](https://suhitaghosh10.github.io/EurLexClassification)
+
 
 A multi-class task assume that one picture only have one class at a time, while a milti-label task assume that one picture could have serveral classes. In our task, every toxic comment could have serveral toxicity types at the same time. (For instance, a comment could have both "threat" and "insult")
 
