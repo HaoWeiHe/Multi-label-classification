@@ -9,7 +9,7 @@ You’re challenged to build a multi-headed model that’s capable of detecting 
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-label-classification/blob/main/Img/multi-label.png" alt="Editor" width="700">
 </div>
-The picture shows the different between multi-label and multi-class problem. This picture was credited by [EurLex classification ]
+The picture shows the different between multi-label and multi-class problem. This picture was credited by [EurLex classification](https://suhitaghosh10.github.io/EurLexClassification/)
 
 A multi-class task assume that one picture only have one class at a time, while a milti-label task assume that one picture could have serveral classes. In our task, every toxic comment could have serveral toxicity types at the same time. (For instance, a comment could have both "threat" and "insult")
 
