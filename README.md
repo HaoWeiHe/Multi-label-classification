@@ -1,5 +1,5 @@
 #  Multi-label-classification 
-Multi-label-classificationis a project for toxic comment classification.(Take kaggle toxic-comment-classification-challenge as our dataset). In this repository we will expore different multi-task models to solve multi-label problem using static word embedding and contextual word representation as input features in different models. 
+Multi-label-classificationis a project for toxic comment classification. (Take kaggle toxic-comment-classification-challenge as input dataset). In this repository we will expore different models to solve multi-label problem using static word embedding and contextual word representation as input features in different models. 
 
 ## Problem Description
 You’re challenged to build a multi-headed model that’s capable of detecting different types of of toxicity like threats, obscenity, insults, and identity-based hate better than Perspective’s current models. You’ll be using a dataset of comments from Wikipedia’s talk page edits. Improvements to the current model will hopefully help online discussion become more productive and respectful. 
@@ -19,17 +19,29 @@ In the task is to predict the probability of different toxicity types for a give
 ## Model options
 
 There are serveral models to pridict toxic types using dense features. Such as logistic regression, tree-base models or deep learning. 
-### Logistic regression
+## Logistic regression
 One of the advantage of logistic regression is resonable for effiecent to train and predict. (It only takes O(n) time complexity). In additional, it also extremely interpretable. However, A major limitation of the linear model is that it assumes linearity exists between the input features and prediction.
 
-### Tree based models
+## Tree based models
 Another modeling options are tree beased models with dense features. Trees are effiecent, interpreatable and  able to utilize non-linear relations between features that aren't avaliable to Logistic regression. However, the training time-complexity is higher than logistic regression.
 
-### Deep learning model
+## Deep learning model
 With sufficient computational power and the amount of data, deep learning can be very powerful in predicting comment types. Training the model as well as evaluation could be very expensive, but we still have some tech to ease this, such as multi-task tech. In this repostory, we will focus on this technique.
 
-## What's multi-task?
-(to be continue)
+### Seperate neutral network
+One way to train seperate NN for each toxicity types of the P(insult), P(threat) and P(toxic). However, since the training / evaluation time could be slow and require high computaional power. The multi-task tech as following introduce will ease this problem.
+
+### Muti-task neutral network
+Another way to to detect different types of of toxicity comments is muti-task NN. We've noticed that to predict the probability of different toxicity comment, such as insult, threat and toxic are similar task as the similar input with word representation. If we are tring to detect insult, it would be helpful for a model to know a comment has a threat context as sharing knowledge. Hence, we can try a NN model with shared layers (for the sharing knowledge) and appended with specific layers for each task's prediction. Thus, these tasks could use the same weight of shared layers. But learns the information of each specific knowledge to the taks by sepcific layers. 
+
+<div align="center">
+	<img src="https://github.com/HaoWeiHe/Multi-label-classification/blob/main/Img/Multitask%20Learning.png" alt="Editor" width="700">
+</div> (This picture is credited by [here](https://www.researchgate.net/figure/Hard-parameter-sharing-for-Multi-Task-Learning-integrated-in-neural-networks_fig2_336935196))
+
+
+### single output layer /w multiple neurons - a binary classifier solution
+Some times, a product team might want to shift its focus to overall types as violation. Then our ohective will be to increase average overall indicator of all violation data. In this case, we can take this taks as a binary classifion problem using a single output layer /w multiple neurons. 
+
 
 ## Data Resource
 * [Toxic comment](https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview)
