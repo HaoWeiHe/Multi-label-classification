@@ -42,7 +42,7 @@ A Mutli-task flowchart credited by the authors of this paper - Context-Aware Hum
 ### Bidirectional Encoder Representations from Transformers (BERT)
 To manage this task, we also can leverage transfer learning tech and the idea of muti-task learning we just learned.(To be continue..)
 
-### Multi-class solution
+### Multi-class neutral network
 Some times, a product team might want to shift its focus to overall types as violation. Then our ohective will be to increase average overall indicator of all violation data. In this case, we can take this taks as a binary classifion problem using a single output layer /w multiple neurons. 
 
 
