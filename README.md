@@ -43,7 +43,7 @@ A Mutli-task flowchart credited by the authors of this paper - Context-Aware Hum
 To manage this task, we also can leverage transfer learning tech and the idea of muti-task learning we just learned.(To be continue..)
 
 ### Multi-class neutral network
-Some times, a product team might want to shift its focus to overall types as violation. Then our ohective will be to increase average overall indicator of all violation data. In this case, we can take this taks as a binary classifion problem using a single output layer /w multiple neurons. 
+Some times, a product team might want to shift its focus to overall types as violation. Then our ohective will be to increase average overall indicator of all violation data. In this case, we can take this taks as a multi-class classifion problem using a single output layer /w multiple neurons. (Noted that multi-class is defferent from multi-label which we've introduced in the above section.)
 
 
 ## Data Resource
