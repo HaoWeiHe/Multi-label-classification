@@ -40,7 +40,10 @@ Another way to to detect different types of of toxicity comments is muti-task NN
 A Mutli-task flowchart credited by the authors of this paper - Context-Aware Human Activity and Smartphone Position-Mining with Motion Sensors.
 
 ### Bidirectional Encoder Representations from Transformers (BERT)
-(To be continue..)
+To manage this task, we also can leverage transfer learning tech and the idea of muti-task learning we just learned.(To be continue..)
+
+### Multi-class solution
+Some times, a product team might want to shift its focus to overall types as violation. Then our ohective will be to increase average overall indicator of all violation data. In this case, we can take this taks as a binary classifion problem using a single output layer /w multiple neurons. 
 
 
 ## Data Resource
