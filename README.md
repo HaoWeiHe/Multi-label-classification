@@ -39,6 +39,8 @@ Another way to to detect different types of of toxicity comments is muti-task NN
 </div>  
 A Mutli-task flowchart credited by Zhiqiang-Gao.
 
+### Transfer Learning - Useing bert
+(To be continue..)
 
 ### Binary classifier solution
 Some times, a product team might want to shift its focus to overall types as violation. Then our ohective will be to increase average overall indicator of all violation data. In this case, we can take this taks as a binary classifion problem using a single output layer /w multiple neurons. 
