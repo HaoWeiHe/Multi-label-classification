@@ -36,10 +36,11 @@ Another way to to detect different types of of toxicity comments is muti-task NN
 
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-label-classification/blob/main/Img/Multitask%20Learning.png" alt="Editor" width="700">
-</div> (This picture is credited by [here](https://www.researchgate.net/figure/Hard-parameter-sharing-for-Multi-Task-Learning-integrated-in-neural-networks_fig2_336935196))
+</div>
+- This picture is credited by [here](https://www.researchgate.net/figure/Hard-parameter-sharing-for-Multi-Task-Learning-integrated-in-neural-networks_fig2_336935196)
 
 
-### single output layer /w multiple neurons - a binary classifier solution
+### Binary classifier solution
 Some times, a product team might want to shift its focus to overall types as violation. Then our ohective will be to increase average overall indicator of all violation data. In this case, we can take this taks as a binary classifion problem using a single output layer /w multiple neurons. 
 
 
