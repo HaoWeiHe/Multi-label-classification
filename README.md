@@ -39,7 +39,7 @@ Another way to to detect different types of of toxicity comments is muti-task NN
 </div>  
 A Mutli-task flowchart credited by Zhiqiang-Gao.
 
-### Transfer Learning - Useing bert
+### Transfer Learning - Using bert
 (To be continue..)
 
 ### Binary classifier solution
