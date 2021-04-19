@@ -37,7 +37,7 @@ Another way to to detect different types of of toxicity comments is muti-task NN
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-label-classification/blob/main/Img/Multitask%20Learning.png" alt="Editor" width="700">
 </div>  
-A Mutli-task flowchart credited by Zhiqiang-Gao.
+A Mutli-task flowchart credited by the authors of this [paper](https://www.mdpi.com/2072-4292/11/21/2531)
 
 ### Bidirectional Encoder Representations from Transformers (BERT)
 (To be continue..)
