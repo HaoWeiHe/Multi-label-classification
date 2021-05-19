@@ -43,7 +43,7 @@ A Mutli-task flowchart credited by the authors of this paper - Context-Aware Hum
 To manage this task, we also can leverage transfer learning tech and the idea of multi-task learning we just learned.
 BERT is a transformer encoder and  also a language representation model. Unlike other language representation models, BERT is designed to pre-train deep bidirectional representations by jointly conditioning on both left and right context in all layers.  As a result, the pre-train Bert model can be fine tuned by just one additional output layer and create SOTA achievement on a wide range of applications. 
 
-In this Github repository we use pre-train Bert with additional layers to address the multi-label problem.
+In this Github repository we use pre-train Bert with additional layers to address the multi-label problem. For more detail of layers information, please check out the subsection below - Model 4.1 - bert multi-label refine.
 
 
 ### Multi-class neutral network
