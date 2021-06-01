@@ -50,10 +50,10 @@ In this Github repository we use pre-train Bert with additional layers to addres
 Some times, a product team might want to shift its focus to predict only one certain toxice type. In this case, we can take this taks as a multi-class classifion problem using a single output layer /w multiple neurons. (Noted that multi-class is defferent from multi-label which we've introduced in the above section.)
 
 ## Loss function
-To deal with multi-class problem, we use focal loss as our loss fuction (Model 4.0). In simple words, Focal Loss is an improved version of Cross-Entropy Loss that tries to handle the class imbalance problem by assigning more weights to hard or easily misclassified examples and to down-weight easy examples 
+To deal with multi-class problem, we use focal loss as our loss fuction (Model 4.0). Focal Loss is an improved version of Cross-Entropy Loss that tries to handle the class imbalance problem by assigning more weights to hard or easily misclassified examples and to down-weight easy examples 
 
 So Focal Loss reduces the loss contribution from easy examples and increases the importance of correcting misclassified examples.
-[refer](https://arxiv.org/ftp/arxiv/papers/2006/2006.01413.pdf)
+[See more](https://arxiv.org/ftp/arxiv/papers/2006/2006.01413.pdf)
 
 ## Data Resource
 * [Toxic comment](https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview)
