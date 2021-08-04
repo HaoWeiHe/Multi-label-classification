@@ -194,7 +194,7 @@ MultiLabel(
 </div>
 
 
-- Model 2.0 - single output layer /w multiple neurons
+- Model 2.0 - single output layer /w multiple neurons (Model for Multi-label classification, not Multi-label)
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/structure1.png" alt="Editor" width="400">
 </div>
