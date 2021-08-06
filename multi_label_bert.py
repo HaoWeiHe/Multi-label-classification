@@ -134,7 +134,7 @@ from transformers import BertModel
 
 class MultiLabel(nn.Module):
     @pysnooper.snoop()
-    def __init__(self, freeze_bert = True):
+    def __init__(self, freeze_bert = False):
         super(MultiLabel, self).__init__()
         self.num_labels = 6
         D_in = 768 #config.hidden_size (of bert)
@@ -143,8 +143,12 @@ class MultiLabel(nn.Module):
         DROPOUT = 0.1 #config.hidden_dropout_prob
         self.bert = BertModel.from_pretrained('bert-base-uncased')
         self.dropout = nn.Dropout(DROPOUT) 
-        self.classifier = torch.nn.Linear(D_in, self.num_labels)
-        
+        self.classifier = nn.Sequential(
+            nn.Linear(D_in, H),
+            nn.ReLU(),
+            nn.Dropout(self.DROPOUT = 0.3),
+            nn.Linear(H, self.num_labels)
+        )
         if freeze_bert:
             for param in self.bert.parameters():
                 param.requires_grad = False
