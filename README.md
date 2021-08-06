@@ -213,10 +213,11 @@ MultiLabel(
 
 
 - Learning Curve - Loss (Model 3.0)
+It's overfitting when we change the last layer to mutiple-output, but keep others the same
+
 <div align="center">
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/sc2_loss.png" alt="Editor" width="500">
 </div>
-It's overfitting when we change the last layer to mutiple-output, but keep others the same
 
 
 - Learning Curve - Acc (Model 4.0)
