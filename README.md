@@ -1,5 +1,49 @@
 #  Multi-label-classification 
-Multi-label-classificationis a project for toxic comment classification. (Take kaggle toxic-comment-classification-challenge as input dataset). In this repository we will expore different models to solve multi-label problem using static word embedding and contextual word representation as input features in different models. 
+Multi-label-classificationis a project for toxic comment classification. (Take kaggle toxic-comment-classification-challenge as input dataset). In this repository we will provide moudle/api which was made by refined bert and  expore different models to solve multi-label problem using static word embedding and contextual word representation as input features in different models. 
+
+##  Features
+* Multi-label  Probability (bert)
+* Multi-label  Prediction (bert)
+
+## Preparing Dependencies
+* conda env create -f freeze.yml
+* Download refined bert model from this project (It may take a while)
+```
+wget "https://drive.google.com/u/0/uc?id=12GWjRLqugcLu2cpF9Dz04S_xnDNz0rAE&export=download" -O "bert_classifier.dict"
+mv bert_classifier.dict model
+```
+
+## Data Resource
+The data resource we used to train our model. (Ignore this selection for simply using api )
+* [Toxic comment](https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview)
+* [GloVe word embedding](https://nlp.stanford.edu/projects/glove/) (use for transfer learning)
+```
+wget http://nlp.stanford.edu/data/glove.6B.zip
+unzip glove.6B.zip
+```
+
+## What's New
+
+### API
+* Finish bert reconstruction for `Module`
+* Finsih Multi-label `Probability`
+* Finish -label `Prediction`
+
+### Model 4.1
+* Use different representation approach 
+* Texual word representation -  `Bert ` /w  ` BCEWithLogitsLoss`
+
+### Model 4.0 
+* Aim to improve data imbalance situation (use tech of loss function revised)
+* Transfer-learning - `stastical word representation` + `LSTM` /w `Focal Loss` 
+
+### Model 3.0
+* Transfer-learning - `word representation` + `LSTM` /w `multiple output layers`
+* Establish & tuning `LSTM` model.
+
+### Model 2.0 (Model for Multi-label classification, not Multi-label classification)
+* Transfer-learning - `word representation` + `LSTM` /w `single output layer but have multiple neurons` 
+* Establish & tuning `LSTM` model.
 
 ## Problem Description
 You’re challenged to build a multi-headed model that’s capable of detecting different types of of toxicity like threats, obscenity, insults, and identity-based hate better than Perspective’s current models. You’ll be using a dataset of comments from Wikipedia’s talk page edits. Improvements to the current model will hopefully help online discussion become more productive and respectful. 
@@ -55,13 +99,6 @@ To deal with multi-class problem, we use `focal loss` as our loss fuction (Model
 So Focal Loss reduces the loss contribution from easy examples and increases the importance of correcting misclassified examples.
 [See more](https://arxiv.org/ftp/arxiv/papers/2006/2006.01413.pdf)
 
-## Data Resource
-* [Toxic comment](https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview)
-* [GloVe word embedding](https://nlp.stanford.edu/projects/glove/) (use for transfer learning)
-```
-wget http://nlp.stanford.edu/data/glove.6B.zip
-unzip glove.6B.zip
-```
 ## Observation
 
 - What does the data look like?
@@ -110,30 +147,6 @@ As per the mean and standard diviation from this data observation, we can set ou
 	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/wordCloud.png" alt="Editor" width="700">
 </div>
 A glimsp of our high frequency words
-
-## What's New
-
-### Model 4.1
-* Use different representation approach 
-* Texual word representation -  `Bert ` /w  ` BCEWithLogitsLoss`
-
-### Model 4.0 
-* Aim to improve data imbalance situation (use tech of loss function revised)
-* Transfer-learning - `stastical word representation` + `LSTM` /w `Focal Loss` 
-
-### Model 3.0
-* Transfer-learning - `word representation` + `LSTM` /w `multiple output layers`
-* Establish & tuning `LSTM` model.
-
-### Model 2.0 (Model for Multi-label classification, not Multi-label classification)
-* Transfer-learning - `word representation` + `LSTM` /w `single output layer but have multiple neurons` 
-* Establish & tuning `LSTM` model.
-
-### Data Observation
-* Restruct training / testing data
-* Observation/anlysis the dataset before diving in
-
-
 
 ## Data Restructure
 - Training set - all data from train.csv
