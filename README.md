@@ -1,5 +1,5 @@
 #  Multi-label-classification 
-Multi-label-classificationis a project for toxic comment classification. (Take kaggle toxic-comment-classification-challenge as input dataset). In this repository we will provide moudle/api which was made by refined bert and  expore different models to solve multi-label problem using static word embedding and contextual word representation as input features in different models. 
+Multi-label-classificationis a project for toxic comment classification. (Take kaggle toxic-comment-classification-challenge as input dataset). This repository provide moudle/api which was made by refined bert and  expore different models to solve multi-label problem using static word embedding and contextual word representation as input features in different models. 
 
 ##  Features
 * Multi-label  Probability (bert)
