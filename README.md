@@ -9,9 +9,28 @@ Multi-label-classificationis a project for toxic comment classification. (Take k
 * conda env create -f freeze.yml
 * Download refined bert model from this project (It may take a while)
 ```
-wget "https://drive.google.com/u/0/uc?id=12GWjRLqugcLu2cpF9Dz04S_xnDNz0rAE&export=download" -O "bert_classifier.dict"
+wget "https://drive.google.com/u/0/uc?id=1PEpcLfhs18NzQKvUYVzcmn-jnnnyXBHz&export=download" -O "bert_classifier.dict"
 mv bert_classifier.dict model
 ```
+
+## Usage
+Get the prediction
+```
+from violation import predict
+text = "fuckkkkk u"  
+output = predict(text)
+print(output)
+ ```
+output :  {'toxic': 1.0, 'severe_toxic': 0.0, 'obscene': 1.0, 'threat': 0.0, 'insult': 1.0, 'identity_hate': 0.0}
+
+Get the confidence Probability
+```
+from violation import predict
+text = "fuckkkkk u"  
+output = predict(text, get_probs = True)
+print(output)
+ ```
+output: {'toxic': 0.9909837245941162, 'severe_toxic': 0.4319310486316681, 'obscene': 0.9577020406723022, 'threat': 0.08440539240837097, 'insult': 0.884278416633606, 'identity_hate': 0.11709830909967422}
 
 ## Data Resource
 The data resource we used to train our model. (Ignore this selection for simply using api )
