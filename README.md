@@ -2,9 +2,9 @@
 Multi-label-classificationis a project for toxic comment classification. (Take kaggle toxic-comment-classification-challenge as input dataset). This repository provide moudle/api which was made by refined bert and  expore different models to solve multi-label problem using static word embedding and contextual word representation as input features in different models. 
 
 ##  Features
-* Multi-label Classifier (bert version)
-* Get Probability (bert version)
-* Get Prediction  (bert version)
+* multi-label classifier (bert version)
+* get probability (bert version)
+* get prediction  (bert version)
 
 ## Preparing Dependencies
 * conda env create -f freeze.yml
@@ -26,7 +26,7 @@ print(output)
 
 Get the probability
 ```
-predict(text, get_probs = True)
+output = predict(text, get_probs = True)
 #output: {'toxic': 0.9909837245941162, 'severe_toxic': 0.4319310486316681, 'obscene': 0.9577020406723022, 'threat': 0.08440539240837097, 'insult': 0.884278416633606, 'identity_hate': 0.11709830909967422}
  ```
 
