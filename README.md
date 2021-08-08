@@ -8,7 +8,7 @@ Multi-label-classificationis a project for toxic comment classification. (Take k
 
 ## Preparing Dependencies
 * conda env create -f freeze.yml
-* Download refined bert model from this project (It may take a while)
+* Download refined bert model from this project and put move it to model the folder (It may take a while)
 ```
 wget "https://drive.google.com/u/0/uc?id=1PEpcLfhs18NzQKvUYVzcmn-jnnnyXBHz&export=download" -O "bert_classifier.dict"
 mv bert_classifier.dict model
