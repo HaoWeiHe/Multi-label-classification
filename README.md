@@ -2,9 +2,8 @@
 Multi-label-classificationis a project for toxic comment classification. (Take kaggle toxic-comment-classification-challenge as input dataset). This repository provide moudle/api which was made by refined bert and  expore different models to solve multi-label problem using static word embedding and contextual word representation as input features in different models. 
 
 ##  Features
-* Multi-label Classifier (bert version)
-* Get Probability (bert version)
-* Get Prediction  (bert version)
+* Multi-label  Probability (bert)
+* Multi-label  Prediction (bert)
 
 ## Preparing Dependencies
 * conda env create -f freeze.yml
@@ -68,7 +67,7 @@ You’re challenged to build a multi-headed model that’s capable of detecting 
 
 ## Different between multi-label and multi-class
 <div align="center">
-    <img src="https://github.com/HaoWeiHe/Multi-label-classification/blob/main/Img/multi-label.png" alt="Editor" width="700">
+	<img src="https://github.com/HaoWeiHe/Multi-label-classification/blob/main/Img/multi-label.png" alt="Editor" width="700">
 </div>
 The picture shows the different between multi-label and multi-class problem. This picture was credited by EurLex.
 
@@ -96,7 +95,7 @@ One way to train seperate NN for each toxicity types of the P(insult), P(threat)
 Another way to to detect different types of of toxicity comments is muti-task NN. We've noticed that to predict the probability of different toxicity comment, such as insult, threat and toxic are similar task as the similar input with word representation. If we are tring to detect insult, it would be helpful for a model to know a comment has a threat context as sharing knowledge. Hence, we can try a NN model with shared layers (for the sharing knowledge) and appended with specific layers for each task's prediction. Thus, these tasks could use the same weight of shared layers. But learns the information of each specific knowledge to the taks by sepcific layers. 
 
 <div align="center">
-    <img src="https://github.com/HaoWeiHe/Multi-label-classification/blob/main/Img/Multitask%20Learning.png" alt="Editor" width="700">
+	<img src="https://github.com/HaoWeiHe/Multi-label-classification/blob/main/Img/Multitask%20Learning.png" alt="Editor" width="700">
 </div>  
 A Mutli-task flowchart credited by the authors of this paper - Context-Aware Human Activity and Smartphone Position-Mining with Motion Sensors.
 
@@ -120,48 +119,48 @@ So Focal Loss reduces the loss contribution from easy examples and increases the
 
 - What does the data look like?
 <div align="center">
-    <img src="https://github.com/HaoWeiHe/multi-lable-classification/blob/main/Img/data_sample.png" alt="Editor" width="700">
+	<img src="https://github.com/HaoWeiHe/multi-lable-classification/blob/main/Img/data_sample.png" alt="Editor" width="700">
 </div>
 
 
 - Generate descriptive statistics
 <div align="center">
-    <img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/categories.png" alt="Editor" width="700">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/categories.png" alt="Editor" width="700">
 </div>
 
 - Total comment counts for different labels
 <div align="center">
-    <img src="https://github.com/HaoWeiHe/multi-lable-classification/blob/main/Img/commentCounts.png" alt="Editor" width="500">
+	<img src="https://github.com/HaoWeiHe/multi-lable-classification/blob/main/Img/commentCounts.png" alt="Editor" width="500">
 </div>
 A quick calculation : sum(label_counts)/num_of_sample = 35098/159571 = 0.219, which indicate that the lower bound(accurancy metric) is around 78.1%
 
 
 - Count numbers of different categories (Training set)
 <div align="center">
-    <img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/mulit-label-count.png" alt="Editor" width="700">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/mulit-label-count.png" alt="Editor" width="700">
 </div>
 
 - Count numbers of different categories (Testing set before data restructure)
 <div align="center">
-    <img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/test_ori.png" alt="Editor" width="700">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/test_ori.png" alt="Editor" width="700">
 </div>
 
 
 - Count numbers of different categories (Testing set after data constructure)
 <div align="center">
-    <img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/test.png" alt="Editor" width="700">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/test.png" alt="Editor" width="700">
 </div> 
 
 
 - Word Length distribution
 <div align="center">
-    <img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/word_frequency_distribution.png" alt="Editor" width="700">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/word_frequency_distribution.png" alt="Editor" width="700">
 </div>
 As per the mean and standard diviation from this data observation, we can set our embedding length to 255 and it can contain around 95% words in a text
 
 - Word colud
 <div align="center">
-    <img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/wordCloud.png" alt="Editor" width="700">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/wordCloud.png" alt="Editor" width="700">
 </div>
 A glimsp of our high frequency words
 
@@ -220,13 +219,13 @@ MultiLabel(
 ```
 - Model 3.0 -multiple output layers
 <div align="center">
-    <img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/structure2.png" alt="Editor" width="900">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/structure2.png" alt="Editor" width="900">
 </div>
 
 
 - Model 2.0 - single output layer /w multiple neurons (Model for Multi-label classification, not Multi-label)
 <div align="center">
-    <img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/structure1.png" alt="Editor" width="400">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/structure1.png" alt="Editor" width="400">
 </div>
 
 ## Training 
@@ -234,17 +233,17 @@ MultiLabel(
 
 - Learning Curve - Acc (Model 4.0)
 <div align="center">
-    <img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/acc_foss.png" alt="Editor" width="500">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/acc_foss.png" alt="Editor" width="500">
 </div>
 
 - Learning Curve - Loss (Model 4.0)
 <div align="center">
-    <img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/loss%20foss.png" alt="Editor" width="500">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/loss%20foss.png" alt="Editor" width="500">
 </div>
 
 - Learning Curve - AUC-ROC (Model 4.0)
 <div align="center">
-    <img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/auc_foss.png" alt="Editor" width="500">
+	<img src="https://github.com/HaoWeiHe/Multi-lable-classification/blob/main/Img/auc_foss.png" alt="Editor" width="500">
 </div>
 
 
