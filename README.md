@@ -27,7 +27,7 @@ output = predict(text, get_probs = True)
 #output: {'toxic': 0.9909837245941162, 'severe_toxic': 0.4319310486316681, 'obscene': 0.9577020406723022, 'threat': 0.08440539240837097, 'insult': 0.884278416633606, 'identity_hate': 0.11709830909967422}
  ```
 ## Demo
-[online Demo](http://www.haoweihohoho.com/multiLabelDemo)
+[Online Demo](http://www.haoweihohoho.com/multiLabelDemo)
 
 ## Data Resource
 The data resource we used to train our model. (Ignore this selection for simply using api )
