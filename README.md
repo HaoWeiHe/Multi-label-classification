@@ -57,7 +57,7 @@ unzip glove.6B.zip
 * Transfer-learning - `word representation` + `LSTM` /w `multiple output layers`
 * Establish & tuning `LSTM` model.
 
-### Model 2.0 (Model for Multi-label classification, not Multi-label classification)
+### Model 2.0 (Model for Multi-class classification, not Multi-label classification)
 * Transfer-learning - `word representation` + `LSTM` /w `single output layer but have multiple neurons` 
 * Establish & tuning `LSTM` model.
 
